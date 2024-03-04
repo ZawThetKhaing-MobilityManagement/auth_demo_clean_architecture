@@ -12,7 +12,7 @@ import 'package:demo_login_ui/core/error/failure.dart' as _i8;
 import 'package:demo_login_ui/core/usecase/usecase.dart' as _i10;
 import 'package:demo_login_ui/features/login/data/datasource/localDataSource/user_local_data_source.dart'
     as _i6;
-import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/authentication_remote_data_source.dart'
+import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart'
     as _i5;
 import 'package:demo_login_ui/features/login/data/model/user_model.dart' as _i9;
 import 'package:demo_login_ui/features/login/data/repository/authentication_repository_impl.dart'

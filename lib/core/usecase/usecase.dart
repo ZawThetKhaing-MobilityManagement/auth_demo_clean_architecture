@@ -11,8 +11,10 @@ abstract class UsecaseWithoutParams<Type> {
 }
 
 class SignInParams {
-  SignInParams({required this.email, required this.name});
+  SignInParams(
+      {required this.email, required this.name, required this.password});
 
   final String email;
   final String name;
+  final String password;
 }

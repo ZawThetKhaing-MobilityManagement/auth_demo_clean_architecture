@@ -8,10 +8,12 @@ import '../../../helper/json_reader/json_reader.dart';
 void main() {
   late UserModel userModel;
 
-  setUp(() {
-    userModel =
-        const UserModel(id: 1, email: 'email@gmail.com', username: 'userName');
-  });
+  setUp(
+    () {
+      userModel = UserModel(
+          id: 1, email: 'email@gmail.com', name: 'userName', token: '');
+    },
+  );
 
   group('user model test', () {
     test(
@@ -21,7 +23,7 @@ void main() {
             jsonDecode(readJson('test/feature/helper/user.json')));
 
         expect(user.id, userModel.id);
-        expect(user.username, userModel.username);
+        expect(user.name, userModel.name);
 
         expect(user.email, userModel.email);
       },
@@ -41,7 +43,7 @@ void main() {
     test('should be return entity when call to entity', () {
       final result = userModel.toEntity();
 
-      const expected = UserEntity(username: 'username', email: 'email', id: 1);
+      const expected = UserEntity(name: 'username', email: 'email', id: 1);
       expect(result, equals(expected));
     });
   });

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/error/exception.dart';
 import 'package:demo_login_ui/core/usecase/usecase.dart';
-import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/authentication_remote_data_source.dart';
+import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,15 +17,17 @@ void main() {
     client = MockClient();
     dataSourceImpl = UserRemoteDataSourceImpl(client: client);
   });
-  final params = SignInParams(email: 'email@gmail.com', name: 'username');
+  final params =
+      SignInParams(email: 'email@gmail.com', name: 'username', password: '');
 
-  const tUserModel = UserModel(username: 'username', email: 'email@gmail.com');
+  const tUserModel =
+      UserModel(name: 'username', email: 'email@gmail.com', token: '');
 
   test(
     'should be pass remote data when sign in',
     () async {
-      final response =
-          await client.post(Uri.parse(baseUrl), body: tUserModel.toJson());
+      final response = await client.post(Uri.parse(Urls.register),
+          body: tUserModel.toJson());
       final model = UserModel.fromJson(jsonDecode(response.body));
       final result = await dataSourceImpl.signUpwithEmailandPassword(params);
 

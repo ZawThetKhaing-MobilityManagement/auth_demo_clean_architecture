@@ -4,27 +4,32 @@ import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
 class UserModel extends UserEntity {
   const UserModel({
     super.id,
-    required super.username,
+    required super.name,
     required super.email,
+    super.token,
   });
 
   factory UserModel.fromJson(DataMap json) => UserModel(
-        username: json['userName'],
-        email: json['email'],
-      );
+      name: json['data']['name'],
+      email: json['data']['email'],
+      token: json['data']['token'],
+    );
 
   DataMap toJson() => {
-        'userName': username,
+        'name': name,
         'email': email,
+        'token': token,
       };
 
   UserEntity toEntity() => UserEntity(
-        username: username,
+        name: name,
         email: email,
+        token: token,
       );
 
   factory UserModel.fromEntity(UserEntity userEntity) => UserModel(
-        username: userEntity.username,
+        name: userEntity.name,
         email: userEntity.email,
+        token: userEntity.token,
       );
 }

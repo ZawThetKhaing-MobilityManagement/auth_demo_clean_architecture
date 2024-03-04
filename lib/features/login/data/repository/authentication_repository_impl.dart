@@ -3,9 +3,10 @@ import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/core/utils/typedef.dart';
 import 'package:demo_login_ui/features/login/data/datasource/localDataSource/user_local_data_source.dart';
-import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/authentication_remote_data_source.dart';
+import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart';
 import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
 import 'package:demo_login_ui/features/login/domain/repositories/authentication_repository.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final UserRemoteDataSource userRemoteDataSource;
@@ -31,6 +32,22 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
+  ResultFuture<UserEntity> login({required LoginInParams params}) async {
+    final result = await userRemoteDataSource.loginwithEmailandPassword(params);
+
+    return result.fold(
+      (faliure) {
+        return Left(ServerFaliure(messages: faliure.messages));
+      },
+      (userModel) {
+        userLocalDataSoure.setCached(userModel);
+        print(userModel.token);
+        return Right(userModel);
+      },
+    );
+  }
+
+  @override
   ResultFuture<UserEntity?> authUser() async {
     final result = await userLocalDataSoure.getCached();
 
@@ -41,5 +58,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  ResultVoid logout() => userLocalDataSoure.removeCached();
+  ResultVoid logout() async {
+    final model = await userLocalDataSoure.getCached();
+    model.fold((l) => null, (r) {
+      userRemoteDataSource.logout(r.token ?? "");
+    });
+    return userLocalDataSoure.removeCached();
+  }
 }

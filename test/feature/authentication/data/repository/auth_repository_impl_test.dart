@@ -21,8 +21,9 @@ void main() {
     );
   });
 
-  final tParams = SignInParams(email: 'test@gmail.com', name: 'testName');
-  final tuserModel = UserModel(username: tParams.email, email: tParams.name);
+  final tParams =
+      SignInParams(email: 'test@gmail.com', name: 'testName', password: '');
+  final tuserModel = UserModel(name: tParams.email, email: tParams.name);
 
   test('should be return user model when sign in ', () async {
     when(

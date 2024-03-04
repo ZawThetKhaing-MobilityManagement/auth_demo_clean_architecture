@@ -1,4 +1,4 @@
-part of 'authbloc_bloc.dart';
+part of 'auth_bloc.dart';
 
 abstract class AuthEvent extends Equatable {
   const AuthEvent();
@@ -7,14 +7,17 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SignInEvent extends AuthEvent {
-  const SignInEvent({required this.params});
+class SignUpEvent extends AuthEvent {
+  const SignUpEvent({required this.params});
   final SignInParams params;
 }
 
-class ProcessingEvent extends AuthEvent {}
+class LoginEvent extends AuthEvent {
+  const LoginEvent({required this.params});
+  final LoginInParams params;
+}
 
-class SuccessfulEvent extends AuthEvent {}
+class ProcessingEvent extends AuthEvent {}
 
 class UnAuthenticatedEvent extends AuthEvent {}
 
