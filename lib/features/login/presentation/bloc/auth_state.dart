@@ -1,4 +1,4 @@
-part of 'authbloc_bloc.dart';
+part of 'auth_bloc.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -11,11 +11,7 @@ class AuthblocInitial extends AuthState {}
 
 class ProcessingState extends AuthState {}
 
-class SuccessfulState extends AuthState {}
-
 class FaliureState extends AuthState {}
-
-class LogoutState extends AuthState {}
 
 class AuthenticatedState extends AuthState {
   const AuthenticatedState({required this.userModel});

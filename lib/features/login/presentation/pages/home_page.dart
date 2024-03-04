@@ -1,12 +1,12 @@
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
-import 'package:demo_login_ui/features/login/presentation/bloc/authbloc_bloc.dart';
+import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomePage extends StatelessWidget {
   final UserModel userModel;
-  const HomeScreen({
+  const HomePage({
     super.key,
     required this.userModel,
   });
@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Hello ${userModel.username}",
+                "Hello ${userModel.name}",
                 style: const TextStyle(fontSize: 30),
               ),
               const SizedBox(

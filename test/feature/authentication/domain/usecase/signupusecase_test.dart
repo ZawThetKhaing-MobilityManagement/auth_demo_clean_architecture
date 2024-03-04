@@ -19,8 +19,8 @@ void main() {
 
   const temail = 'email@example.com';
   const tname = 'name@example.com';
-  const tUser = UserEntity(id: 1, username: tname, email: temail);
-  final params = SignInParams(email: 'email', name: 'name');
+  const tUser = UserEntity(id: 1, name: tname, email: temail);
+  final params = SignInParams(email: 'email', name: 'name', password: '');
   test(
     'should be signUp user when usecase called',
     () async {

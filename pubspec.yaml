@@ -35,9 +35,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
+  geolocator: ^11.0.0
   get_it: ^7.6.7
   http: ^1.2.1
+  location: ^5.0.3
   mockito: ^5.4.4
+  permission_handler: ^11.3.0
   shared_preferences: ^2.2.2
 
 dev_dependencies:

@@ -1,6 +1,5 @@
 import 'package:demo_login_ui/core/routes/route.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
-import 'package:demo_login_ui/core/utils/string_ext.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/login_or_register.dart';
@@ -8,26 +7,20 @@ import 'package:demo_login_ui/features/login/presentation/widgets/welcome_contai
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
-  final FocusNode _emailF = FocusNode();
   final FocusNode _passwordF = FocusNode();
-  final FocusNode _confrimPasswordF = FocusNode();
-
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,31 +44,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainText: "Get Started",
                     subText: "by creating a new account",
                   ),
-                  TextFormField(
-                    controller: _usernameController,
-                    validator: (value) =>
-                        value?.isEmpty == true ? "Username required !" : null,
-                    decoration: const InputDecoration(
-                      hintText: 'Full name',
-                      suffixIcon: Icon(
-                        Icons.person_outline_outlined,
-                        size: 24,
-                      ),
-                    ),
-                    onEditingComplete: _emailF.requestFocus,
-                  ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   TextFormField(
                     controller: _emailController,
-                    focusNode: _emailF,
                     //Just verify not null for testing.
-                    validator: (value) => value?.isEmpty == true
-                        ? "Email required !"
-                        : value!.isValidEmail
-                            ? null
-                            : "Invalid Email !",
+                    validator: (value) =>
+                        value?.isEmpty == true ? "Email required !" : null,
 
                     decoration: const InputDecoration(
                       hintText: 'Valid email',
@@ -84,20 +60,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         size: 24,
                       ),
                     ),
+
                     onEditingComplete: _passwordF.requestFocus,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   TextFormField(
                     obscureText: true,
                     focusNode: _passwordF,
                     controller: _passwordController,
-                    validator: (value) => value?.isEmpty == true
-                        ? "Password required !"
-                        : value!.isValidPassword
-                            ? null
-                            : "Atleast 8 words and a capital number required !",
+                    validator: (value) =>
+                        value?.isEmpty == true ? "Password required !" : null,
                     decoration: const InputDecoration(
                       hintText: 'Strong password',
                       suffixIcon: Icon(
@@ -105,42 +79,24 @@ class _SignUpPageState extends State<SignUpPage> {
                         size: 24,
                       ),
                     ),
-                    onEditingComplete: _confrimPasswordF.requestFocus,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 17,
                   ),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    focusNode: _confrimPasswordF,
-                    obscureText: true,
-                    validator: (value) => value?.isEmpty == true
-                        ? "Password required"
-                        : value! != _passwordController.text
-                            ? "Password does not match !"
-                            : null,
-                    decoration: const InputDecoration(
-                      hintText: 'Confirm password',
-                      suffixIcon: Icon(
-                        Icons.lock_outline,
-                        size: 24,
-                      ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Forget password ?",
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color.fromRGBO(255, 57, 81, 1),
+                          ),
+                        ),
+                      ],
                     ),
-                    onEditingComplete: () {
-                      if (formkey.currentState?.validate() == true &&
-                          isLoading == false) {
-                        isLoading = true;
-                        context.read<AuthBloc>().add(
-                              SignUpEvent(
-                                params: SignInParams(
-                                  email: _emailController.text,
-                                  name: _usernameController.text,
-                                  password: _passwordController.text,
-                                ),
-                              ),
-                            );
-                      }
-                    },
                   ),
                   const SizedBox(
                     height: 30,
@@ -158,10 +114,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           isLoading == false) {
                         isLoading = true;
                         context.read<AuthBloc>().add(
-                              SignUpEvent(
-                                params: SignInParams(
+                              LoginEvent(
+                                params: LoginInParams(
                                   email: _emailController.text,
-                                  name: _usernameController.text,
                                   password: _passwordController.text,
                                 ),
                               ),
@@ -173,10 +128,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 25,
                   ),
                   LoginOrRegister(
-                    text: 'Already a member?',
-                    funText: 'Login',
+                    text: 'New member?',
+                    funText: 'Register now',
                     onTap: () {
-                      Navigator.of(context).pushNamed(Routes.login);
+                      Navigator.of(context).pushNamed(Routes.signUp);
                     },
                   ),
                 ],
