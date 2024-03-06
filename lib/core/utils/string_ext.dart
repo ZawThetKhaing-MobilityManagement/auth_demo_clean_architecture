@@ -6,6 +6,6 @@ extension Validator on String {
   }
 
   bool get isValidPassword {
-    return length >= 8 && contains(RegExp(r'[A-Z]'));
+    return length >= 8;
   }
 }

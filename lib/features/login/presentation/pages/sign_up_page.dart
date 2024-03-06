@@ -97,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ? "Password required !"
                         : value!.isValidPassword
                             ? null
-                            : "Atleast 8 words and a capital number required !",
+                            : "Atleast 8 words required !",
                     decoration: const InputDecoration(
                       hintText: 'Strong password',
                       suffixIcon: Icon(

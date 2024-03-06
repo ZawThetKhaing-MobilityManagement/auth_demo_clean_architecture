@@ -11,7 +11,11 @@ class AuthblocInitial extends AuthState {}
 
 class ProcessingState extends AuthState {}
 
-class FaliureState extends AuthState {}
+class FaliureState extends AuthState {
+  const FaliureState({required this.message});
+
+  final String message;
+}
 
 class AuthenticatedState extends AuthState {
   const AuthenticatedState({required this.userModel});

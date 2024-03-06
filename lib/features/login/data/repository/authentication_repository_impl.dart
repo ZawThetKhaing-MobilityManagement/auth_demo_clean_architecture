@@ -37,11 +37,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
     return result.fold(
       (faliure) {
+        print(faliure.messages);
         return Left(ServerFaliure(messages: faliure.messages));
       },
       (userModel) {
         userLocalDataSoure.setCached(userModel);
-        print(userModel.token);
+
         return Right(userModel);
       },
     );

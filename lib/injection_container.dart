@@ -1,3 +1,8 @@
+import 'package:demo_login_ui/features/get_location/data/datasource/remote_data_source/location_remote_data_source.dart';
+import 'package:demo_login_ui/features/get_location/data/repository/location_repository_impl.dart';
+import 'package:demo_login_ui/features/get_location/domain/repository/location_repository.dart';
+import 'package:demo_login_ui/features/get_location/domain/usecases/get_current_location_usecase.dart';
+import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
 import 'package:demo_login_ui/features/login/data/datasource/localDataSource/user_local_data_source.dart';
 import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart';
 import 'package:demo_login_ui/features/login/data/repository/authentication_repository_impl.dart';
@@ -24,11 +29,22 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => LocationBloc(
+      locationUsecase: sl(),
+    ),
+  );
+
   //!repository
   sl.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(
       userRemoteDataSource: sl(),
       userLocalDataSoure: sl(),
+    ),
+  );
+  sl.registerLazySingleton<LocationRepository>(
+    () => LocationRepositoryImpl(
+      locationRemoteDataSource: sl(),
     ),
   );
 
@@ -40,13 +56,22 @@ Future<void> init() async {
   sl.registerLazySingleton<UserLocalDataSource>(
       () => UserLocalDataSourceImpl(sharedPreferences: sl()));
 
+  sl.registerLazySingleton<LocationRemoteDataSource>(
+      () => LocationRemoteDataSourceImpl(client: sl()));
+
   //!usecase
 
   sl.registerLazySingleton(() => SignUpUsecase(authenticationRepository: sl()));
+
   sl.registerLazySingleton(
       () => AuthUserUsecase(authenticationRepository: sl()));
+
   sl.registerLazySingleton(() => LogoutUsecase(authenticationRepository: sl()));
+
   sl.registerLazySingleton(() => LoginUsecase(authenticationRepository: sl()));
+
+  sl.registerLazySingleton(
+      () => GetCurrentLocationUsecase(locationRepository: sl()));
 
   //!external
 

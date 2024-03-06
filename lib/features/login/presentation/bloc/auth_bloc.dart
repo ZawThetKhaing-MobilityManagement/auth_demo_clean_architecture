@@ -26,13 +26,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final result = await signUpUsecase(event.params);
 
           result.fold(
-            (l) => emit(FaliureState()),
+            (l) => emit(FaliureState(message: l.messages)),
             (r) => emit(
               AuthenticatedState(userModel: UserModel.fromEntity(r)),
             ),
           );
         } catch (e) {
-          emit(FaliureState());
+          emit(const FaliureState(message: 'Something Went Wrong'));
         }
       },
     );
@@ -44,13 +44,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final result = await loginUsecase(event.params);
 
           result.fold(
-            (l) => emit(FaliureState()),
+            (l) => emit(FaliureState(message: l.messages)),
             (r) => emit(
               AuthenticatedState(userModel: UserModel.fromEntity(r)),
             ),
           );
         } catch (e) {
-          emit(FaliureState());
+          emit(const FaliureState(message: "Something Went Wrong"));
         }
       },
     );
@@ -65,6 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogoutEvent>((event, emit) async {
       await logoutUsecase();
+
       emit(UnAuthenticatedState());
     });
 

@@ -8,7 +8,11 @@ abstract class Exception extends Equatable {
 class CachedException extends Exception {}
 
 class ServerException extends Exception {
-  ServerException({required this.statusCode});
+  ServerException({
+    required this.statusCode,
+    required this.message,
+  });
 
   final int statusCode;
+  final String message;
 }

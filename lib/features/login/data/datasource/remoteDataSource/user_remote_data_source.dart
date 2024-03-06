@@ -22,11 +22,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   UserRemoteDataSourceImpl({required this.client});
 
   @override
-  ResultFuture<UserModel> signUpwithEmailandPassword(SignInParams params) =>
+  ResultFuture<UserModel> signUpwithEmailandPassword(
+          SignInParams params) async =>
       apiService(Urls.register, signInParams: params);
 
   @override
-  ResultFuture<UserModel> loginwithEmailandPassword(LoginInParams params) =>
+  ResultFuture<UserModel> loginwithEmailandPassword(
+          LoginInParams params) async =>
       apiService(Urls.login, loginInParams: params);
 
   @override
@@ -39,13 +41,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           'Authorization': 'Bearer $token',
         },
       );
+      print(response.statusCode);
+      print(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         return const Right(null);
       } else {
-        throw Left(ServerException(statusCode: response.statusCode));
+        throw Left(
+          ServerException(
+              statusCode: response.statusCode, message: response.body),
+        );
       }
     } on ServerException catch (e) {
-      throw Left(ServerException(statusCode: e.statusCode));
+      throw Left(ServerException(statusCode: e.statusCode, message: e.message));
     }
   }
 
@@ -83,10 +91,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
         return Right(model);
       } else {
-        throw Left(ServerException(statusCode: response.statusCode));
+        final errorMessage =
+            (jsonDecode(response.body) as Map<String, dynamic>)['data'];
+
+        return Left(
+          ServerFaliure(
+            messages: errorMessage[0],
+          ),
+        );
       }
     } on ServerException catch (e) {
-      throw Left(ServerException(statusCode: e.statusCode));
+      throw Left(
+        ServerException(
+          statusCode: e.statusCode,
+          message: e.message,
+        ),
+      );
     }
   }
 }

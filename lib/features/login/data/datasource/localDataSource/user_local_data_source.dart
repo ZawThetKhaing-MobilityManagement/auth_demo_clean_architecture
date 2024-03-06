@@ -36,7 +36,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   }
 
   @override
-  Future<bool> setCached(UserModel modelToCached) {
+  Future<bool> setCached(UserModel modelToCached) async {
     return sharedPreferences.setString(
         USER_CACHED, json.encode(modelToCached.toJson()));
   }

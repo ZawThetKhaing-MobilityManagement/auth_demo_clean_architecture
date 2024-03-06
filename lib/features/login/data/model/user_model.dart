@@ -10,15 +10,17 @@ class UserModel extends UserEntity {
   });
 
   factory UserModel.fromJson(DataMap json) => UserModel(
-      name: json['data']['name'],
-      email: json['data']['email'],
-      token: json['data']['token'],
-    );
+        name: json['data']['name'],
+        email: json['data']['email'],
+        token: json['data']['token'],
+      );
 
   DataMap toJson() => {
-        'name': name,
-        'email': email,
-        'token': token,
+        'data': {
+          'name': name,
+          'email': email,
+          'token': token,
+        }
       };
 
   UserEntity toEntity() => UserEntity(
