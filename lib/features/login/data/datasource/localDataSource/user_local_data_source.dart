@@ -43,6 +43,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
   @override
   ResultFuture<void> removeCached() async {
+    sharedPreferences.remove(LOCATION_CACHED);
     final result = await sharedPreferences.remove(USER_CACHED);
     if (result) {
       return const Right(null);

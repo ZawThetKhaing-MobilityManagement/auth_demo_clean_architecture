@@ -1,3 +1,4 @@
+import 'package:demo_login_ui/core/const/const.dart';
 import 'package:flutter/material.dart';
 
 class LoginOrRegister extends StatelessWidget {
@@ -28,9 +29,9 @@ class LoginOrRegister extends StatelessWidget {
             onTap: onTap,
             child: Text(
               funText,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 13,
-                color: Color.fromRGBO(255, 57, 81, 1),
+                color: mainColor,
               ),
             ),
           ),

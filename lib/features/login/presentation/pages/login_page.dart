@@ -1,3 +1,4 @@
+import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/utils/string_ext.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
@@ -47,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
             }
             if (state is AuthenticatedState) {
               isLoading = false;
-              print(state.userModel.token);
               Navigator.of(context).pushNamedAndRemoveUntil(
                 Routes.home,
                 (route) => false,
@@ -56,9 +56,11 @@ class _LoginPageState extends State<LoginPage> {
             }
             if (state is UnAuthenticatedState) {
               isLoading = false;
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.login,
-                (route) => false,
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  duration: Duration(milliseconds: 300),
+                  content: Text("Please login in..."),
+                ),
               );
             }
           },
@@ -134,14 +136,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () {},
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         "Forget password ?",
                         style: TextStyle(
                           fontSize: 10,
-                          color: Color.fromRGBO(255, 57, 81, 1),
+                          color: mainColor,
                         ),
                       ),
                     ],

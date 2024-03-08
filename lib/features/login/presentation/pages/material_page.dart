@@ -1,6 +1,5 @@
 import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/theme/theme.dart';
-import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,12 @@ class MaterialScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<AuthBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<LocationBloc>(),
+          create: (context) => sl<AuthBloc>()..authenticationCheck(),
         ),
       ],
       child: MaterialApp(
         onGenerateRoute: Routes.routes,
-        initialRoute: Routes.login,
+        initialRoute: Routes.wrapper,
         theme: themeData,
       ),
     );

@@ -18,7 +18,7 @@ class WelcomeContainer extends StatelessWidget {
       height: 250,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assert/login_decoration.png'),
+          image: AssetImage('assert/login_decoration.png' ),
         ),
       ),
       child: Column(

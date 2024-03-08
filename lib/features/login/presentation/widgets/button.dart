@@ -1,3 +1,4 @@
+import 'package:demo_login_ui/core/const/const.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
@@ -22,7 +23,7 @@ class Button extends StatelessWidget {
             ),
           ),
           backgroundColor: MaterialStateProperty.all(
-            const Color.fromRGBO(255, 57, 81, 1),
+            mainColor,
           ),
           foregroundColor: MaterialStateProperty.all(Colors.white),
           alignment: Alignment.center,

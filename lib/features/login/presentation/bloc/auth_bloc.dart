@@ -65,11 +65,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogoutEvent>((event, emit) async {
       await logoutUsecase();
-
       emit(UnAuthenticatedState());
     });
-
-    authenticationCheck();
   }
 
   final AuthUserUsecase authUserUsecase;
@@ -79,7 +76,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   StreamSubscription? streamSubscription;
 
-  void authenticationCheck() {
+  Future<void> authenticationCheck() async {
+    await Future.delayed(const Duration(seconds: 1));
     streamSubscription = authUserUsecase().asStream().listen((user) {
       user.fold(
         (l) => add(UnAuthenticatedEvent()),
