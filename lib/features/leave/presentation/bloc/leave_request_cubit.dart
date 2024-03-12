@@ -1,4 +1,8 @@
+import 'package:dartz/dartz.dart';
+import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/features/leave/data/model/leave_model.dart';
+import 'package:demo_login_ui/features/leave/domain/entities/leave_entity.dart';
+import 'package:demo_login_ui/features/leave/domain/usecases/get_leave_list_from_cache_usecase.dart';
 import 'package:demo_login_ui/features/leave/domain/usecases/get_leave_list_usecase.dart';
 import 'package:demo_login_ui/features/leave/domain/usecases/request_leave_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +13,11 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
   LeaveRequestCubit({
     required this.leaveRequestUsecase,
     required this.getLeaveListUsecase,
+    required this.getLeaveListFromCacheUsecase,
   }) : super(LeaverequestInitial());
   final LeaveRequestUsecase leaveRequestUsecase;
   final GetLeaveListUsecase getLeaveListUsecase;
+  final GetLeaveListFromCacheUsecase getLeaveListFromCacheUsecase;
 
   Future<void> postLeaveRequest(LeaveParams params) async {
     emit(
@@ -25,7 +31,10 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
     final result = await leaveRequestUsecase(params);
 
     result.fold(
-      (l) => emit(LeaveRequestFailed(message: l.messages)),
+      (l) {
+        emit(LeaveRequestFailed(
+            message: l.messages, leaveList: state.leaveList));
+      },
       (r) {
         getLeaveList(params.token);
         emit(const LeaveRequestSuccessful(message: "Request Successful"));
@@ -33,20 +42,28 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
     );
   }
 
-  Future<void> getLeaveList(String token) async {
+  Future<void> getLeaveList(String? token) async {
     emit(const LeaveRequestProcessing());
-
-    final result = await getLeaveListUsecase(token);
+    Either<Faliure, LeaveResponseEntity> result;
+    if (token == null) {
+      result = await getLeaveListFromCacheUsecase();
+    } else {
+      result = await getLeaveListUsecase(token);
+    }
     result.fold(
-      (l) => emit(LeaveRequestFailed(message: l.messages)),
-      (r) => emit(
-        LoadedLeaveList(
-            leaveList: r
-                .map(
-                  (e) => LeaveModel.fromEntity(e),
-                )
-                .toList()),
-      ),
+      (l) {
+        emit(LeaveRequestFailed(message: l.messages));
+      },
+      (r) {
+        emit(
+          LoadedLeaveList(
+              leaveList: r.leaveList
+                  .map(
+                    (e) => LeaveModel.fromEntity(e),
+                  )
+                  .toList()),
+        );
+      },
     );
   }
 

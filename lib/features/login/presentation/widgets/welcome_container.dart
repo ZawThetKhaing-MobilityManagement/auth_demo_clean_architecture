@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WelcomeContainer extends StatelessWidget {
-  final String mainText;
-  final String subText;
   const WelcomeContainer({
     super.key,
-    required this.mainText,
-    required this.subText,
   });
 
   @override
@@ -18,19 +14,8 @@ class WelcomeContainer extends StatelessWidget {
       height: 250,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assert/login_decoration.png' ),
+          image: AssetImage('assert/app_logo.png'),
         ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            mainText,
-            style: const TextStyle(
-                fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          Text(subText),
-        ],
       ),
     );
   }

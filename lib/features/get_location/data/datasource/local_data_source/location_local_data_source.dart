@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocationLocalDataSoure {
   Future<bool> setLocationCached(LocationParams params);
-
   ResultFuture<LocationModel> getCached();
   ResultFuture<void> removeCached();
 }

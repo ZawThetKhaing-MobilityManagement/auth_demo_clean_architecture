@@ -4,5 +4,6 @@ import 'package:demo_login_ui/features/leave/domain/usecases/request_leave_useca
 
 abstract class LeaveRequestRepository {
   ResultVoid requestLeave(LeaveParams entity);
-  ResultFuture<List<LeaveEntity>> getLeaveList(String token);
+  ResultFuture<LeaveResponseEntity> getLeaveList(String token);
+  ResultFuture<LeaveResponseEntity> getLeaveListFromCache();
 }

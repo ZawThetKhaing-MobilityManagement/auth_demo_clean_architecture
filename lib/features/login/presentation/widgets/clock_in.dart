@@ -30,6 +30,13 @@ class ClockIn extends StatelessWidget {
           context
               .read<AttendenceListCubit>()
               .getAttendenceList(userModel.token ?? '');
+        } else if (state is LocationGetFailedState) {
+          showDialog(
+            context: context,
+            builder: (_) => const SuccessDialog(
+              isSuccess: false,
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -84,9 +91,7 @@ class ClockIn extends StatelessWidget {
                   color: model?.status == CHECK_OUT || model?.status == null
                       ? Colors.green[200]
                       : Colors.white70,
-                  borderRadius: BorderRadius.circular(
-                    24,
-                  ),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: state is LoactionGetProcessingState
                     ? const Center(

@@ -21,7 +21,9 @@ class HomePage extends StatelessWidget {
     final List<Widget> views = [
       HomeView(userModel: userModel),
       LeaveView(userModel: userModel),
-      const ProfileView(),
+      ProfileView(
+        userModel: userModel,
+      ),
     ];
     return Scaffold(
       body: BlocBuilder<HomeViewCubit, int>(

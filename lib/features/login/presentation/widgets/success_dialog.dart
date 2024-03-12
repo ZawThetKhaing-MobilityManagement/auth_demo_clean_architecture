@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SuccessDialog extends StatelessWidget {
-  const SuccessDialog({super.key});
+  final bool isSuccess;
+  const SuccessDialog({super.key, this.isSuccess = true});
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +20,22 @@ class SuccessDialog extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: mainColor,
             shape: BoxShape.circle,
           ),
-          child: const PhosphorIcon(
-            PhosphorIconsRegular.checkCircle,
+          child: PhosphorIcon(
+            isSuccess == true ? PhosphorIconsRegular.checkCircle : Icons.close,
             color: Colors.white,
           ),
         ),
       ),
-      title: const Text("Attendance Successful!"),
-      content: const Text(
-        "Great job! Your attendance has been successfully recorded. You're all set for today.",
+      title: Text(
+          isSuccess == true ? "Attendence Successful!" : "Attendence Failed!"),
+      content: Text(
+        isSuccess == true
+            ? "Great job! Your attendance has been successfully recorded. You're all set for today."
+            : "You're not in specified range.Click me at specified area.",
         textAlign: TextAlign.center,
       ),
       contentTextStyle: TextStyleData.medium.copyWith(

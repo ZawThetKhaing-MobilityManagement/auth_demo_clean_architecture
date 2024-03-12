@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 abstract class LeaveRemoteDataSource {
   ResultFuture<void> requestLeave(LeaveParams params);
-  ResultFuture<List<LeaveEntity>> getLeaveList(String token);
+  ResultFuture<LeaveResponseEntity> getLeaveList(String token);
 }
 
 class LeaveRemoteDataSourceImpl implements LeaveRemoteDataSource {
@@ -20,7 +20,7 @@ class LeaveRemoteDataSourceImpl implements LeaveRemoteDataSource {
   final http.Client client;
 
   @override
-  ResultFuture<List<LeaveEntity>> getLeaveList(String token) async {
+  ResultFuture<LeaveResponseEntity> getLeaveList(String token) async {
     Uri uri = Uri.parse(Urls.leaveRequestStatus);
     try {
       final response = await client.get(
@@ -34,7 +34,7 @@ class LeaveRemoteDataSourceImpl implements LeaveRemoteDataSource {
         final LeaveResponseModel model =
             LeaveResponseModel.fromJson(jsonDecode(response.body));
 
-        return Right(model.leaveList);
+        return Right(model);
       } else {
         return const Left(ServerFaliure(messages: 'no data'));
       }
@@ -64,10 +64,10 @@ class LeaveRemoteDataSourceImpl implements LeaveRemoteDataSource {
       if (response.statusCode == 200) {
         return const Right(null);
       } else {
-        return const Left(ServerFaliure(messages: 'Leave Request Failed !'));
+        return const Left(ServerFaliure(messages: 'Something Wrong !'));
       }
     } catch (e) {
-      return const Left(ServerFaliure(messages: 'Leave Request Failed !'));
+      return const Left(ServerFaliure(messages: 'Something Wrong !'));
     }
   }
 }

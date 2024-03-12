@@ -32,7 +32,7 @@ abstract class Routes {
               ),
               BlocProvider(
                 create: (context) => sl<LeaveRequestCubit>()
-                  ..getLeaveList((settings.arguments as UserModel).token ?? ''),
+                  ..getLeaveList((settings.arguments as UserModel).token),
               ),
               BlocProvider(
                 create: (context) => sl<AttendenceListCubit>()

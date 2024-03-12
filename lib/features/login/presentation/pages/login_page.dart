@@ -1,10 +1,8 @@
-import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/utils/string_ext.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/login_or_register.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/welcome_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,10 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 horizontal: 30,
               ),
               children: [
-                const WelcomeContainer(
-                  mainText: "Get Started",
-                  subText: "by creating a new account",
-                ),
+                const WelcomeContainer(),
                 const SizedBox(
                   height: 30,
                 ),
@@ -119,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                           ? null
                           : "Atleast 8 words required !",
                   decoration: const InputDecoration(
-                    hintText: 'Strong password',
+                    hintText: 'Password',
                     suffixIcon: Icon(
                       Icons.lock_outline,
                       size: 24,
@@ -140,24 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                           );
                     }
                   },
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Forget password ?",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: mainColor,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -189,13 +166,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(
                   height: 25,
-                ),
-                LoginOrRegister(
-                  text: 'New member?',
-                  funText: 'Register now',
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.signUp);
-                  },
                 ),
               ],
             ),

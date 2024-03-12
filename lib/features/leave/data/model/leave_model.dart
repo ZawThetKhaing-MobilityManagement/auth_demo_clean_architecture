@@ -9,6 +9,14 @@ class LeaveResponseModel extends LeaveResponseEntity {
             .map((e) => LeaveModel.fromJson(e as DataMap))
             .toList(),
       );
+  factory LeaveResponseModel.fromEntity(LeaveResponseEntity entity) =>
+      LeaveResponseModel(
+        leaveList: entity.leaveList,
+      );
+
+  DataMap toJson() => {
+        'data': leaveList.map((e) => (e as LeaveModel).toJson()).toList(),
+      };
 }
 
 class LeaveModel extends LeaveEntity {

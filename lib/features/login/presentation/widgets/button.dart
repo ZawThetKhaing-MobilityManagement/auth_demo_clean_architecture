@@ -6,9 +6,11 @@ class Button extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.widgets,
+    this.color,
   });
   final void Function() onPressed;
   final List<Widget> widgets;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,7 +25,7 @@ class Button extends StatelessWidget {
             ),
           ),
           backgroundColor: MaterialStateProperty.all(
-            mainColor,
+            color ?? mainColor,
           ),
           foregroundColor: MaterialStateProperty.all(Colors.white),
           alignment: Alignment.center,

@@ -8,9 +8,11 @@ import 'package:demo_login_ui/features/get_location/domain/usecases/get_location
 import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/home_view_cubit_cubit.dart';
+import 'package:demo_login_ui/features/leave/data/datasource/local_data_source/leave_request_local_data_source.dart';
 import 'package:demo_login_ui/features/leave/data/datasource/remote_data_source/leave_request_remote_data_source.dart';
 import 'package:demo_login_ui/features/leave/data/repository/leave_request_repository_impl.dart';
 import 'package:demo_login_ui/features/leave/domain/repository/leave_request_repository.dart';
+import 'package:demo_login_ui/features/leave/domain/usecases/get_leave_list_from_cache_usecase.dart';
 import 'package:demo_login_ui/features/leave/domain/usecases/get_leave_list_usecase.dart';
 import 'package:demo_login_ui/features/leave/domain/usecases/request_leave_usecase.dart';
 import 'package:demo_login_ui/features/leave/presentation/bloc/leave_request_cubit.dart';
@@ -48,6 +50,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => LeaveRequestCubit(
       getLeaveListUsecase: sl(),
+      getLeaveListFromCacheUsecase: sl(),
       leaveRequestUsecase: sl(),
     ),
   );
@@ -69,6 +72,7 @@ Future<void> init() async {
   sl.registerLazySingleton<LeaveRequestRepository>(
     () => LeaveRequestRepositoryImpl(
       remoteDataSource: sl(),
+      localDataSource: sl(),
     ),
   );
   sl.registerLazySingleton<LocationRepository>(
@@ -95,6 +99,9 @@ Future<void> init() async {
   sl.registerLazySingleton<LeaveRemoteDataSource>(
       () => LeaveRemoteDataSourceImpl(client: sl()));
 
+  sl.registerLazySingleton<LeaveRequestLocalDataSource>(
+      () => LeaveRequestLocalDataSourceImpl(sharedPreferences: sl()));
+
   //!usecase
 
   sl.registerLazySingleton(() => SignUpUsecase(authenticationRepository: sl()));
@@ -120,6 +127,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
       () => GetLeaveListUsecase(leaveRequestRepository: sl()));
+
+  sl.registerLazySingleton(
+      () => GetLeaveListFromCacheUsecase(leaveRequestRepository: sl()));
 
   //!external
 

@@ -1,9 +1,7 @@
-import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/utils/string_ext.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/login_or_register.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/welcome_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,10 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   horizontal: 30,
                 ),
                 children: [
-                  const WelcomeContainer(
-                    mainText: "Get Started",
-                    subText: "by creating a new account",
-                  ),
+                  const WelcomeContainer(),
                   TextFormField(
                     controller: _usernameController,
                     validator: (value) =>
@@ -189,13 +184,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(
                     height: 25,
-                  ),
-                  LoginOrRegister(
-                    text: 'Already a member?',
-                    funText: 'Login',
-                    onTap: () {
-                      Navigator.of(context).pushNamed(Routes.login);
-                    },
                   ),
                 ],
               ),

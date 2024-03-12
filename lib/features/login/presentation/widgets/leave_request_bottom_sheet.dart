@@ -31,7 +31,7 @@ class _LeaveRequestBottomSheetState extends State<LeaveRequestBottomSheet> {
           await showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              icon: PhosphorIcon(
+              icon: const PhosphorIcon(
                 PhosphorIconsFill.checkCircle,
                 color: mainColor,
                 size: 50,
@@ -51,12 +51,12 @@ class _LeaveRequestBottomSheetState extends State<LeaveRequestBottomSheet> {
           showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              icon: PhosphorIcon(
+              icon: const PhosphorIcon(
                 Icons.error,
                 color: mainColor,
                 size: 50,
               ),
-              title: const Text("Fill data correctly !"),
+              title: Text(state.message ?? "Fill data correctly !"),
               actions: [
                 Button(
                   onPressed: Navigator.of(context).pop,
@@ -72,7 +72,7 @@ class _LeaveRequestBottomSheetState extends State<LeaveRequestBottomSheet> {
       builder: (context, state) {
         final cubit = context.read<LeaveRequestCubit>();
         return Container(
-          height: MediaQuery.of(context).size.height * 0.56,
+          height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -115,7 +115,6 @@ class _LeaveRequestBottomSheetState extends State<LeaveRequestBottomSheet> {
                               firstDate: DateTime.now(),
                               lastDate: DateTime(DateTime.now().year + 1),
                             );
-
                             cubit.datePickerChange(startDate: dateRange);
                           },
                           child: Card(
