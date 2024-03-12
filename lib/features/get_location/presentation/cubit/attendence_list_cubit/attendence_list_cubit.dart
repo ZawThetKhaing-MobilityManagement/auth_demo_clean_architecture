@@ -9,9 +9,7 @@ class AttendenceListCubit extends Cubit<AttendenceListState> {
       : super(AttendenceListInitial());
 
   void getAttendenceList(String token) async {
-    print("Attendence is $token");
     final result = await getAttendenceActivityUsecase(token);
-    print("Attendence is $result");
 
     return result.fold(
       (l) => emit(UnLoadedAttendenceList()),

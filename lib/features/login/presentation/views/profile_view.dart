@@ -25,7 +25,9 @@ class ProfileView extends StatelessWidget {
                   context.read<AuthBloc>().add(LogoutEvent());
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(Routes.login, (route) => false);
-                } catch (e) {}
+                } catch (e) {
+                  // ToDo ::
+                }
               },
               widgets: const [
                 Text(

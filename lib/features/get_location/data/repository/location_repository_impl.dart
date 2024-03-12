@@ -3,7 +3,6 @@ import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/core/utils/typedef.dart';
 import 'package:demo_login_ui/features/get_location/data/datasource/local_data_source/location_local_data_source.dart';
 import 'package:demo_login_ui/features/get_location/data/datasource/remote_data_source/location_remote_data_source.dart';
-import 'package:demo_login_ui/features/get_location/data/model/location_model.dart';
 import 'package:demo_login_ui/features/get_location/domain/entities/attendence_list_entity.dart';
 import 'package:demo_login_ui/features/get_location/domain/entities/location_entity.dart';
 import 'package:demo_login_ui/features/get_location/domain/repository/location_repository.dart';
@@ -40,7 +39,7 @@ class LocationRepositoryImpl implements LocationRepository {
     return result.fold(
       (l) => Left(CacheFaliure(messages: l.messages)),
       (r) => Right(r.toEntity()),
-    );  
+    );
   }
 
   @override

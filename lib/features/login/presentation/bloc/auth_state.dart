@@ -1,10 +1,16 @@
 part of 'auth_bloc.dart';
 
 abstract class AuthState extends Equatable {
-  const AuthState();
+  const AuthState({
+    this.message,
+    this.userModel,
+  });
+  final String? message;
+
+  final UserModel? userModel;
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [userModel];
 }
 
 class AuthblocInitial extends AuthState {}
@@ -12,15 +18,11 @@ class AuthblocInitial extends AuthState {}
 class ProcessingState extends AuthState {}
 
 class FaliureState extends AuthState {
-  const FaliureState({required this.message});
-
-  final String message;
+  const FaliureState({super.message});
 }
 
 class AuthenticatedState extends AuthState {
-  const AuthenticatedState({required this.userModel});
-
-  final UserModel userModel;
+  const AuthenticatedState({super.userModel});
 }
 
 class UnAuthenticatedState extends AuthState {}

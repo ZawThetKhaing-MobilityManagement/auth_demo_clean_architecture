@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/error/exception.dart';
 import 'package:demo_login_ui/core/error/failure.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/core/utils/typedef.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDataSource {
@@ -41,8 +41,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           'Authorization': 'Bearer $token',
         },
       );
-      print(response.statusCode);
-      print(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return const Right(null);

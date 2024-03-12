@@ -12,7 +12,6 @@ class WrapperPage extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthenticatedState) {
-            print(state.userModel.token);
             Navigator.of(context).pushNamedAndRemoveUntil(
               Routes.home,
               (route) => false,
@@ -26,10 +25,8 @@ class WrapperPage extends StatelessWidget {
             );
           }
         },
-        child: Container(
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+        child: const Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );

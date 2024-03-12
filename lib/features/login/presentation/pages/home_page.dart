@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
     final homeViewCubit = context.read<HomeViewCubit>();
     final List<Widget> views = [
       HomeView(userModel: userModel),
-      LeaveView(),
+      LeaveView(userModel: userModel),
       const ProfileView(),
     ];
     return Scaffold(

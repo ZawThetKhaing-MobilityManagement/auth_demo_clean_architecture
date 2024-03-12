@@ -19,9 +19,11 @@ class SignUpUsecase extends UsecaseWithParams<UserEntity, SignInParams> {
   }
 }
 
-class SignUpParams {
-  SignUpParams({required this.email, required this.name});
+class SignInParams {
+  SignInParams(
+      {required this.email, required this.name, required this.password});
 
   final String email;
   final String name;
+  final String password;
 }

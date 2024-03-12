@@ -1,33 +1,18 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
-import 'package:demo_login_ui/features/get_location/data/model/attendence_list_model.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_state.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class YourActivity extends StatefulWidget {
+class YourActivity extends StatelessWidget {
   const YourActivity({super.key});
 
   @override
-  State<YourActivity> createState() => _YourActivityState();
-}
-
-class _YourActivityState extends State<YourActivity> {
-  AttendenceListModel? model;
-
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AttendenceListCubit, AttendenceListState>(
-      listener: (context, state) {
-        print("Attendence is $state");
-        if (state is LoadedAttendenceList) {
-          model = state.model;
-        }
-      },
+    return BlocBuilder<AttendenceListCubit, AttendenceListState>(
       builder: (context, state) {
         return Expanded(
           child: Container(
@@ -53,7 +38,7 @@ class _YourActivityState extends State<YourActivity> {
                     ),
                   ),
                 ),
-                model?.data.isEmpty == true
+                state.model?.data.isEmpty == true
                     ? Expanded(
                         child: Container(
                           alignment: Alignment.center,
@@ -67,13 +52,12 @@ class _YourActivityState extends State<YourActivity> {
                         ),
                       )
                     : Expanded(
-                        child: model?.data.isNotEmpty == true
+                        child: state.model?.data.isNotEmpty == true
                             ? ListView.builder(
-                                itemCount: (model?.data.length ?? 0) > 14
+                                itemCount: (state.model?.data.length ?? 0) > 14
                                     ? 14
-                                    : model?.data.length,
+                                    : state.model?.data.length,
                                 itemBuilder: (_, index) {
-                                  print("BUild");
                                   return Card(
                                     elevation: 0.5,
                                     color: Colors.white,
@@ -92,7 +76,8 @@ class _YourActivityState extends State<YourActivity> {
                                         ),
                                       ),
                                       title: Text(
-                                        model?.data[index].status == CHECK_IN
+                                        state.model?.data[index].status ==
+                                                CHECK_IN
                                             ? 'Clock-In'
                                             : 'Clock-Out',
                                         style: TextStyleData.semiBold.copyWith(
@@ -101,7 +86,7 @@ class _YourActivityState extends State<YourActivity> {
                                       ),
                                       subtitle: Text(
                                         DateFormat.yMMMMd().format(
-                                          model?.data[index].createdAt ??
+                                          state.model?.data[index].createdAt ??
                                               DateTime.now(),
                                         ),
                                         style: TextStyleData.regular.copyWith(
@@ -112,7 +97,8 @@ class _YourActivityState extends State<YourActivity> {
                                         children: [
                                           Text(
                                             DateFormat.jm().format(
-                                              model?.data[index].createdAt ??
+                                              state.model?.data[index].createdAt
+                                                      .toLocal() ??
                                                   DateTime.now(),
                                             ),
                                             style:
@@ -135,7 +121,7 @@ class _YourActivityState extends State<YourActivity> {
                               )
                             : Container(
                                 alignment: Alignment.center,
-                                child: CircularProgressIndicator(),
+                                child: const CircularProgressIndicator(),
                               ),
                       ),
               ],

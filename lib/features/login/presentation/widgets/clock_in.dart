@@ -1,17 +1,17 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
+import 'package:demo_login_ui/features/get_location/data/model/location_model.dart';
 import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/mini_clock_in_out.dart';
-
+import 'package:demo_login_ui/features/login/presentation/widgets/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class ClockIn extends StatefulWidget {
+class ClockIn extends StatelessWidget {
   final UserModel userModel;
   const ClockIn({
     super.key,
@@ -19,92 +19,22 @@ class ClockIn extends StatefulWidget {
   });
 
   @override
-  State<ClockIn> createState() => _ClockInState();
-}
-
-class _ClockInState extends State<ClockIn> {
-  DateTime? clockIn;
-  DateTime? clockOut;
-  String? hour;
-  String? minute;
-  String status = CHECK_OUT;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationBloc, LocationState>(
       listener: (context, state) {
-        print(state);
         if (state is LocationGetSuccessfulState) {
           showDialog(
             context: context,
-            builder: (_) {
-              return AlertDialog(
-                icon: Container(
-                  width: 90,
-                  height: 90,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: mainColor.withOpacity(0.5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: mainColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const PhosphorIcon(
-                      PhosphorIconsRegular.checkCircle,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                title: const Text("Attendance Successful!"),
-                content: const Text(
-                  "Great job! Your attendance has been successfully recorded. You're all set for today.",
-                  textAlign: TextAlign.center,
-                ),
-                contentTextStyle: TextStyleData.medium.copyWith(
-                  color: Colors.black,
-                ),
-                actions: [
-                  Button(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    widgets: const [
-                      Text("Done"),
-                    ],
-                  )
-                ],
-              );
-            },
+            builder: (_) => const SuccessDialog(),
           );
           context
               .read<AttendenceListCubit>()
-              .getAttendenceList(widget.userModel.token ?? '');
-          clockIn = state.model.clockIn;
-          status = state.model.status;
-          clockOut = state.model.clockOut;
-          hour = state.model.hour;
-          minute = state.model.minute;
-          status = state.model.status;
-        } else if (state is TimerState) {
-          clockIn = state.model.clockIn;
-          status = state.model.status;
-          clockOut = state.model.clockOut;
-          hour = state.model.hour;
-          minute = state.model.minute;
-          status = state.model.status;
-          print(state.model.toJson());
+              .getAttendenceList(userModel.token ?? '');
         }
       },
       builder: (context, state) {
-        print("status $status");
+        final LocationModel? model = state.model;
+        DateTime? clockIn = model?.clockIn;
         return Column(
           children: [
             Container(
@@ -128,53 +58,67 @@ class _ClockInState extends State<ClockIn> {
             ),
             GestureDetector(
               onTap: () {
-                if (state is LocationLoadingState) return;
-                if (status == CHECK_OUT) {
+                if (state is LoactionGetProcessingState) return;
+
+                if (model?.status == CHECK_OUT || model?.status == null) {
                   context.read<LocationBloc>().add(
                         GetLocationEvent(
-                          token: widget.userModel.token ?? '',
+                          token: userModel.token ?? '',
                           status: Status.clockIn,
                         ),
                       );
-                  return;
+                } else {
+                  context.read<LocationBloc>().add(
+                        GetLocationEvent(
+                          token: userModel.token ?? '',
+                          status: Status.clockOut,
+                          clockIn: model?.clockIn,
+                        ),
+                      );
                 }
-                context.read<LocationBloc>().add(
-                      GetLocationEvent(
-                        token: widget.userModel.token ?? '',
-                        status: Status.clockOut,
-                        clockIn: clockIn,
-                      ),
-                    );
-                return;
               },
               child: Container(
                 width: 118,
                 height: 116,
                 decoration: BoxDecoration(
-                  color:
-                      status == CHECK_OUT ? Colors.green[200] : Colors.white70,
+                  color: model?.status == CHECK_OUT || model?.status == null
+                      ? Colors.green[200]
+                      : Colors.white70,
                   borderRadius: BorderRadius.circular(
                     24,
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      PhosphorIconsRegular.handPointing,
-                      size: 50,
-                      color: status == CHECK_OUT ? Colors.white : Colors.black,
-                    ),
-                    Text(
-                      status == CHECK_OUT ? "Clock-in" : "Clock-out",
-                      style: TextStyleData.medium.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color:
-                            status == CHECK_OUT ? Colors.white : Colors.black,
+                child: state is LoactionGetProcessingState
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            PhosphorIconsRegular.handPointing,
+                            size: 50,
+                            color: model?.status == CHECK_OUT ||
+                                    model?.status == null
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          Text(
+                            model?.status == CHECK_OUT || model?.status == null
+                                ? "Clock-in"
+                                : "Clock-out",
+                            style: TextStyleData.medium.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: model?.status == CHECK_OUT ||
+                                      model?.status == null
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
             const SizedBox(
@@ -188,12 +132,12 @@ class _ClockInState extends State<ClockIn> {
                   MiniClockInOut(
                     icon: PhosphorIconsRegular.clock,
                     status: "Clock-In",
-                    time: clockIn,
+                    time: model?.clockIn ?? clockIn,
                   ),
                   MiniClockInOut(
                     icon: PhosphorIconsRegular.clockAfternoon,
                     status: "Clock-Out",
-                    time: clockOut,
+                    time: model?.clockOut,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +148,7 @@ class _ClockInState extends State<ClockIn> {
                         color: Colors.white,
                       ),
                       Text(
-                        "${hour == 'null' || hour == null ? '00' : hour}:${minute == 'null' || minute == null ? '00' : minute}",
+                        "${model?.hour ?? '00'}:${model?.minute ?? '00'}",
                         style: TextStyleData.semiBold,
                       ),
                       Text("Working-hours", style: TextStyleData.regular),

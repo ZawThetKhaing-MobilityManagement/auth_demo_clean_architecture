@@ -1,29 +1,28 @@
 part of 'location_bloc.dart';
 
 abstract class LocationState {
-  const LocationState();
+  const LocationState({
+    this.model,
+    this.message,
+  });
+  final LocationModel? model;
+  final String? message;
 }
 
 class LocationInitial extends LocationState {}
 
 class LocationGetSuccessfulState extends LocationState {
-  const LocationGetSuccessfulState({required this.model});
-  final LocationModel model;
+  const LocationGetSuccessfulState({required super.model});
 }
 
-class LocationLoadingState extends LocationState {}
+class LoactionGetProcessingState extends LocationState {
+  const LoactionGetProcessingState({super.model});
+}
 
 class TimerState extends LocationState {
-  const TimerState({required this.model});
-  final LocationModel model;
+  const TimerState({required super.model});
 }
 
 class LocationGetFailedState extends LocationState {
-  const LocationGetFailedState({required this.message});
-  final String message;
-}
-
-class ClockInState extends LocationState {
-  const ClockInState({required this.clockInTime});
-  final DateTime clockInTime;
+  const LocationGetFailedState({required super.message});
 }

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';

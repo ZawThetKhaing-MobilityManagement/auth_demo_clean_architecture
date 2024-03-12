@@ -9,7 +9,6 @@ class LocationService {
     if (!serviceEnabled) {
       bool result = await location.requestService();
       if (result == true) {
-        print('Service has been enabled');
       } else {
         throw Exception('GPS service not enabled');
       }

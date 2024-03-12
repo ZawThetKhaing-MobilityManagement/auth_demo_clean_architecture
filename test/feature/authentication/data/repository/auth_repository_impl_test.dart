@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/login/data/repository/authentication_repository_impl.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

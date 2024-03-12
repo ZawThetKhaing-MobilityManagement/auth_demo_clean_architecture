@@ -1,6 +1,6 @@
 import 'package:demo_login_ui/core/routes/route.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/core/utils/string_ext.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/login_or_register.dart';
@@ -28,6 +28,20 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _emailF.dispose();
+    _passwordF.dispose();
+    _confrimPasswordF.dispose();
+    formkey.currentState?.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -130,9 +144,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (formkey.currentState?.validate() == true &&
                           isLoading == false) {
                         isLoading = true;
+                        _confrimPasswordF.unfocus();
+
                         context.read<AuthBloc>().add(
                               SignUpEvent(
-                                params: SignInParams(
+                                signUpParams: SignInParams(
                                   email: _emailController.text,
                                   name: _usernameController.text,
                                   password: _passwordController.text,
@@ -157,9 +173,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (formkey.currentState?.validate() == true &&
                           isLoading == false) {
                         isLoading = true;
+                        _confrimPasswordF.unfocus();
+
                         context.read<AuthBloc>().add(
                               SignUpEvent(
-                                params: SignInParams(
+                                signUpParams: SignInParams(
                                   email: _emailController.text,
                                   name: _usernameController.text,
                                   password: _passwordController.text,

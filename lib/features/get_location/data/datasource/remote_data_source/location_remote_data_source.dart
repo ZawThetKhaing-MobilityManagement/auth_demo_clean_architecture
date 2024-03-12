@@ -43,9 +43,6 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
         },
       );
 
-      print(response.statusCode);
-      print(response.body);
-
       if (response.statusCode == 200) {
         return Right(
           LocationEntity(
@@ -62,7 +59,6 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
         );
       }
     } catch (e) {
-      print(e);
       throw Left(Exception());
     }
   }
@@ -70,7 +66,6 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
   @override
   ResultFuture<AttendenceListEntity> getAttendenceActivity(String token) async {
     Uri uri = Uri.parse(Urls.attendenceList);
-    print("Attendence is client $token");
 
     try {
       final response = await client.get(
@@ -80,8 +75,6 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
           "Authorization": "Bearer $token",
         },
       );
-      print("Attendence is ${response.statusCode}");
-      print("Attendence is ${response.body}");
 
       if (response.statusCode == 200) {
         AttendenceListModel model = AttendenceListModel.fromJson(
@@ -94,7 +87,6 @@ class LocationRemoteDataSourceImpl extends LocationRemoteDataSource {
         return Left(ServerFaliure(messages: response.body));
       }
     } catch (e) {
-      print("Attendence is $e");
       return const Left(
         ApiFaliure(messages: "Something went wrong"),
       );

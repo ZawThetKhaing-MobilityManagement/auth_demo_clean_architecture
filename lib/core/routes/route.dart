@@ -1,6 +1,7 @@
 import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/home_view_cubit_cubit.dart';
+import 'package:demo_login_ui/features/leave/presentation/bloc/leave_request_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/login/presentation/pages/home_page.dart';
 import 'package:demo_login_ui/features/login/presentation/pages/login_page.dart';
@@ -28,6 +29,10 @@ abstract class Routes {
               ),
               BlocProvider(
                 create: (context) => sl<HomeViewCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => sl<LeaveRequestCubit>()
+                  ..getLeaveList((settings.arguments as UserModel).token ?? ''),
               ),
               BlocProvider(
                 create: (context) => sl<AttendenceListCubit>()

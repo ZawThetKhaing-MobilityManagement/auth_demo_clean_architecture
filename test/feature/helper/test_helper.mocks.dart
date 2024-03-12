@@ -9,7 +9,6 @@ import 'dart:typed_data' as _i15;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:demo_login_ui/core/error/failure.dart' as _i8;
-import 'package:demo_login_ui/core/usecase/usecase.dart' as _i10;
 import 'package:demo_login_ui/features/login/data/datasource/localDataSource/user_local_data_source.dart'
     as _i6;
 import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart'
@@ -21,6 +20,8 @@ import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart'
     as _i12;
 import 'package:demo_login_ui/features/login/domain/repositories/authentication_repository.dart'
     as _i11;
+import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart'
+    as _i10;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i14;
@@ -133,7 +134,7 @@ class MockUserRemoteDataSourceImpl extends _i1.Mock
 
   @override
   _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>> signUpwithEmailandPassword(
-          _i10.SignInParams? params) =>
+          dynamic params) =>
       (super.noSuchMethod(
         Invocation.method(
           #signUpwithEmailandPassword,
@@ -154,6 +155,101 @@ class MockUserRemoteDataSourceImpl extends _i1.Mock
           Invocation.method(
             #signUpwithEmailandPassword,
             [params],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>> loginwithEmailandPassword(
+          _i10.LoginInParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loginwithEmailandPassword,
+          [params],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>.value(
+            _FakeEither_1<_i8.Faliure, _i9.UserModel>(
+          this,
+          Invocation.method(
+            #loginwithEmailandPassword,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>.value(
+                _FakeEither_1<_i8.Faliure, _i9.UserModel>(
+          this,
+          Invocation.method(
+            #loginwithEmailandPassword,
+            [params],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, void>> logout(String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [token],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+            _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [token],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+                _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [token],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, void>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>> apiService(
+    String? url, {
+    dynamic signInParams,
+    _i10.LoginInParams? loginInParams,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #apiService,
+          [url],
+          {
+            #signInParams: signInParams,
+            #loginInParams: loginInParams,
+          },
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>.value(
+            _FakeEither_1<_i8.Faliure, _i9.UserModel>(
+          this,
+          Invocation.method(
+            #apiService,
+            [url],
+            {
+              #signInParams: signInParams,
+              #loginInParams: loginInParams,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>.value(
+                _FakeEither_1<_i8.Faliure, _i9.UserModel>(
+          this,
+          Invocation.method(
+            #apiService,
+            [url],
+            {
+              #signInParams: signInParams,
+              #loginInParams: loginInParams,
+            },
           ),
         )),
       ) as _i7.Future<_i3.Either<_i8.Faliure, _i9.UserModel>>);
@@ -213,6 +309,32 @@ class MockUserLocalDataSourceImpl extends _i1.Mock
         returnValue: _i7.Future<bool>.value(false),
         returnValueForMissingStub: _i7.Future<bool>.value(false),
       ) as _i7.Future<bool>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, void>> removeCached() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeCached,
+          [],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+            _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #removeCached,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+                _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #removeCached,
+            [],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, void>>);
 }
 
 /// A class which mocks [AuthenticationRepository].
@@ -222,7 +344,7 @@ class MockAuthenticationRepository extends _i1.Mock
     implements _i11.AuthenticationRepository {
   @override
   _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>> signUp(
-          {required _i10.SignInParams? params}) =>
+          {required dynamic params}) =>
       (super.noSuchMethod(
         Invocation.method(
           #signUp,
@@ -244,6 +366,36 @@ class MockAuthenticationRepository extends _i1.Mock
           this,
           Invocation.method(
             #signUp,
+            [],
+            {#params: params},
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>> login(
+          {required _i10.LoginInParams? params}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #login,
+          [],
+          {#params: params},
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>.value(
+            _FakeEither_1<_i8.Faliure, _i12.UserEntity>(
+          this,
+          Invocation.method(
+            #login,
+            [],
+            {#params: params},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>.value(
+                _FakeEither_1<_i8.Faliure, _i12.UserEntity>(
+          this,
+          Invocation.method(
+            #login,
             [],
             {#params: params},
           ),
@@ -276,6 +428,31 @@ class MockAuthenticationRepository extends _i1.Mock
           ),
         )),
       ) as _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity?>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, void>> logout() => (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+            _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+                _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, void>>);
 }
 
 /// A class which mocks [Client].
@@ -632,7 +809,7 @@ class MockAuthenticationRepositoryImpl extends _i1.Mock
 
   @override
   _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>> signUp(
-          {required _i10.SignInParams? params}) =>
+          {required dynamic params}) =>
       (super.noSuchMethod(
         Invocation.method(
           #signUp,
@@ -654,6 +831,36 @@ class MockAuthenticationRepositoryImpl extends _i1.Mock
           this,
           Invocation.method(
             #signUp,
+            [],
+            {#params: params},
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>> login(
+          {required _i10.LoginInParams? params}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #login,
+          [],
+          {#params: params},
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>.value(
+            _FakeEither_1<_i8.Faliure, _i12.UserEntity>(
+          this,
+          Invocation.method(
+            #login,
+            [],
+            {#params: params},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity>>.value(
+                _FakeEither_1<_i8.Faliure, _i12.UserEntity>(
+          this,
+          Invocation.method(
+            #login,
             [],
             {#params: params},
           ),
@@ -686,4 +893,29 @@ class MockAuthenticationRepositoryImpl extends _i1.Mock
           ),
         )),
       ) as _i7.Future<_i3.Either<_i8.Faliure, _i12.UserEntity?>>);
+
+  @override
+  _i7.Future<_i3.Either<_i8.Faliure, void>> logout() => (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+            _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<_i3.Either<_i8.Faliure, void>>.value(
+                _FakeEither_1<_i8.Faliure, void>(
+          this,
+          Invocation.method(
+            #logout,
+            [],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Faliure, void>>);
 }

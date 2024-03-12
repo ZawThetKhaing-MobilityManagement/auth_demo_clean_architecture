@@ -22,13 +22,22 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordF = FocusNode();
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordF.dispose();
+    formkey.currentState?.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            print('state is $state and');
             if (state is ProcessingState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -42,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   duration: const Duration(milliseconds: 300),
-                  content: Text(state.message),
+                  content: Text(state.message.toString()),
                 ),
               );
             }
@@ -120,9 +129,10 @@ class _LoginPageState extends State<LoginPage> {
                     if (formkey.currentState?.validate() == true &&
                         isLoading == false) {
                       isLoading = true;
+                      _passwordF.unfocus();
                       context.read<AuthBloc>().add(
                             LoginEvent(
-                              params: LoginInParams(
+                              loginInParams: LoginInParams(
                                 email: _emailController.text,
                                 password: _passwordController.text,
                               ),
@@ -164,9 +174,11 @@ class _LoginPageState extends State<LoginPage> {
                     if (formkey.currentState?.validate() == true &&
                         isLoading == false) {
                       isLoading = true;
+                      _passwordF.unfocus();
+
                       context.read<AuthBloc>().add(
                             LoginEvent(
-                              params: LoginInParams(
+                              loginInParams: LoginInParams(
                                 email: _emailController.text,
                                 password: _passwordController.text,
                               ),

@@ -15,4 +15,6 @@ class Urls {
   static const String logout = '$baseUrl/logout';
   static const String attendence = '$baseUrl/attendence';
   static const String attendenceList = '$baseUrl/attendence-list';
+  static const String leaveRequest = '$baseUrl/leave-request';
+  static const String leaveRequestStatus = '$baseUrl/leave-request-status';
 }

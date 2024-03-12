@@ -1,5 +1,3 @@
-import 'package:demo_login_ui/core/utils/typedef.dart';
-
 class AttendenceListEntity {
   const AttendenceListEntity({required this.data});
   final List<AttendenceEntity> data;

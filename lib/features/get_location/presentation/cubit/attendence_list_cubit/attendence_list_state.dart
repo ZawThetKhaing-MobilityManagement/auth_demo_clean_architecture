@@ -1,14 +1,13 @@
 import 'package:demo_login_ui/features/get_location/data/model/attendence_list_model.dart';
 
 class AttendenceListState {
-  const AttendenceListState();
+  const AttendenceListState({this.model});
+  final AttendenceListModel? model;
 }
 
 class LoadedAttendenceList extends AttendenceListState {
-  const LoadedAttendenceList({required this.model});
-
-  final AttendenceListModel model;
-} 
+  const LoadedAttendenceList({super.model});
+}
 
 class AttendenceListInitial extends AttendenceListState {}
 

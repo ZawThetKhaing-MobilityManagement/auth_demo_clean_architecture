@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:demo_login_ui/core/error/failure.dart';
-import 'package:demo_login_ui/core/usecase/usecase.dart';
 import 'package:demo_login_ui/core/utils/typedef.dart';
 import 'package:demo_login_ui/features/login/data/datasource/localDataSource/user_local_data_source.dart';
 import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart';
 import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
 import 'package:demo_login_ui/features/login/domain/repositories/authentication_repository.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final UserRemoteDataSource userRemoteDataSource;
@@ -37,7 +37,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
     return result.fold(
       (faliure) {
-        print(faliure.messages);
         return Left(ServerFaliure(messages: faliure.messages));
       },
       (userModel) {

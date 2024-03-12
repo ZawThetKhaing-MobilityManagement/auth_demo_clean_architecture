@@ -10,7 +10,7 @@ void main() {
 
   setUp(
     () {
-      userModel = UserModel(
+      userModel = const UserModel(
           id: 1, email: 'email@gmail.com', name: 'userName', token: '');
     },
   );

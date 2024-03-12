@@ -6,16 +6,12 @@ class MiniClockInOut extends StatelessWidget {
   final IconData icon;
   final String status;
   final DateTime? time;
-  final String? minute;
-  final String? hour;
 
   const MiniClockInOut({
     super.key,
     required this.icon,
     required this.status,
     this.time,
-    this.hour,
-    this.minute,
   });
 
   @override
