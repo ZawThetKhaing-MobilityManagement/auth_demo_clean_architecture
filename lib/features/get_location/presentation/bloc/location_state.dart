@@ -23,6 +23,6 @@ class TimerState extends LocationState {
   const TimerState({required super.model});
 }
 
-class LocationGetFailedState extends LocationState {
-  const LocationGetFailedState({required super.message});
+class GetLocationFailedState extends LocationState {
+  const GetLocationFailedState({required super.message, required super.model});
 }

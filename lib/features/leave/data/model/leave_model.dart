@@ -55,6 +55,9 @@ class LeaveModel extends LeaveEntity {
         'start_date': startDate.toString().split(' ').first,
         'end_date': endDate.toString(),
         'permission_type': permissionType.toString().split(' ').first,
+        'created_at': createdAt.toString(),
+        'approved_by': approvedBy.toString(),
+        'status': status.toString(),
       };
 
   LeaveEntity toEntity() => LeaveEntity(

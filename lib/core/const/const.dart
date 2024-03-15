@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 const String USER_CACHED = "USER_CACHED";
 const String LOCATION_CACHED = "LOCATION_CACHED";
-const String LEAVE_CACHED = "LOCATION_CACHED";
+const String LEAVE_CACHED = "LEAVE_CACHED";
+const String ATTENDENCE_CACHED = "ATTENDENCE_CACHED";
 
 const String CHECK_IN = "check-in";
 const String CHECK_OUT = "check-out";
 
-const Color mainColor = Color.fromRGBO(214, 58, 66, 1);
+const Color mainColor = Color.fromRGBO(220, 53, 69, 1);
 const Color backGroundColor = Color.fromARGB(133, 239, 239, 239);
 
 class Urls {

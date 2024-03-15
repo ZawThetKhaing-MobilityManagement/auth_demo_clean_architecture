@@ -69,7 +69,7 @@ class YourActivity extends StatelessWidget {
                                           color: mainColor.withOpacity(0.5),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(
+                                        child: const Icon(
                                           PhosphorIconsRegular.signIn,
                                           size: 16,
                                           color: mainColor,

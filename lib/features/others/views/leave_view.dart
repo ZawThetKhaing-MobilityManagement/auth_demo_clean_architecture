@@ -2,9 +2,9 @@ import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
 import 'package:demo_login_ui/features/leave/presentation/bloc/leave_request_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/leave_remaing_box.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/leave_request_bottom_sheet.dart';
+import 'package:demo_login_ui/features/others/widgets/button.dart';
+import 'package:demo_login_ui/features/leave/presentation/widgets/leave_remaing_box.dart';
+import 'package:demo_login_ui/features/leave/presentation/widgets/leave_request_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -95,9 +95,7 @@ class LeaveView extends StatelessWidget {
                             },
                           );
                         },
-                        widgets: const [
-                          Text("Apply Leaves"),
-                        ],
+                        text: 'Apply Leaves',
                       )
                     ],
                   ),

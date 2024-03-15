@@ -2,7 +2,7 @@ import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/utils/string_ext.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
+import 'package:demo_login_ui/features/others/widgets/button.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/welcome_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -140,13 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 30,
                 ),
                 Button(
-                  widgets: const [
-                    Text(
-                      "Next",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Icon(Icons.chevron_right),
-                  ],
+                  text: 'Next',
                   onPressed: () {
                     if (formkey.currentState?.validate() == true &&
                         isLoading == false) {

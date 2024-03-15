@@ -64,10 +64,11 @@ class LeaveRemoteDataSourceImpl implements LeaveRemoteDataSource {
       if (response.statusCode == 200) {
         return const Right(null);
       } else {
-        return const Left(ServerFaliure(messages: 'Something Wrong !'));
+        return const Left(ServerFaliure(messages: 'Leave request failed!'));
       }
     } catch (e) {
-      return const Left(ServerFaliure(messages: 'Something Wrong !'));
+      return const Left(ServerFaliure(
+          messages: 'Something Wrong! Please check your internet connection.'));
     }
   }
 }

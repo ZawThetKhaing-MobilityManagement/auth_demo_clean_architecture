@@ -23,7 +23,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     on<GetLocationEvent>(getLocation);
 
     on<GetLocationFailedEvent>(
-      (event, emit) => emit(LocationGetFailedState(message: event.message)),
+      (event, emit) => emit(GetLocationFailedState(
+        message: event.message,
+        model: state.model,
+      )),
     );
 
     on<TimerEvent>(
@@ -54,6 +57,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     final location = LocationService();
     try {
       final permission = await requestLocationPermission();
+
       if (permission) {
         final position = await location.getCurrentLocation();
 
@@ -81,7 +85,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
         return result.fold(
           (l) {
-            emit(LocationGetFailedState(message: l.messages));
+            emit(GetLocationFailedState(
+              message: l.messages,
+              model: state.model,
+            ));
           },
           (entity) {
             final model = LocationModel.fromEntity(entity);
@@ -102,9 +109,14 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             }
           },
         );
+      } else {
+        emit(GetLocationFailedState(
+            message: 'Permission Denied!', model: state.model));
       }
     } catch (e) {
-      ///
+      emit(GetLocationFailedState(
+          message: 'Something Wrong! Please check your internet connection.',
+          model: state.model));
     }
   }
 
@@ -159,6 +171,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     final permissionStatus = await locationPermission.status;
     if (permissionStatus == ph.PermissionStatus.permanentlyDenied) {
       await ph.openAppSettings();
+
       return false;
     } else if (permissionStatus != ph.PermissionStatus.granted) {
       final status = await ph.Permission.location.request();

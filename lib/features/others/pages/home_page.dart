@@ -1,9 +1,9 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/features/get_location/presentation/cubit/home_view_cubit_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
-import 'package:demo_login_ui/features/login/presentation/views/home_view.dart';
-import 'package:demo_login_ui/features/login/presentation/views/leave_view.dart';
-import 'package:demo_login_ui/features/login/presentation/views/profile_view.dart';
+import 'package:demo_login_ui/features/others/views/home_view.dart';
+import 'package:demo_login_ui/features/others/views/leave_view.dart';
+import 'package:demo_login_ui/features/others/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

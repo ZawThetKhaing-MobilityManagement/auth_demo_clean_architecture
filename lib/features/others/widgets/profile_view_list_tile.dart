@@ -10,7 +10,7 @@ class ProfileListTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final PhosphorIconData icon;
+  final IconData icon;
   final String title;
   final void Function()? onTap;
 

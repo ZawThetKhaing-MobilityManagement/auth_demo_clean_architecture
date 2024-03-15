@@ -8,6 +8,7 @@ abstract class LocationRepository {
     required LocationParams params,
   });
 
-  ResultFuture<LocationEntity> getLocationCache();
+  ResultFuture<LocationEntity> getLocationFromCache();
   ResultFuture<AttendenceListEntity> getAttendenceActivity(String token);
+  ResultFuture<AttendenceListEntity> getAttendenceActivityFromCache();
 }

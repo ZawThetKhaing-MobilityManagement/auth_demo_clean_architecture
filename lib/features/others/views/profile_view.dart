@@ -3,8 +3,8 @@ import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/profile_view_list_tile.dart';
+import 'package:demo_login_ui/features/others/widgets/button.dart';
+import 'package:demo_login_ui/features/others/widgets/profile_view_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -33,7 +33,7 @@ class ProfileView extends StatelessWidget {
       ),
       backgroundColor: backGroundColor,
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -41,65 +41,53 @@ class ProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(16),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const CircleAvatar(
-                                radius: 24,
-                                child: Icon(Icons.person),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userModel.name,
-                                    style: TextStyleData.semiBold.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Sale Promoter',
-                                    style: TextStyleData.medium.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsiIcLC98l0IVWtUGXYytr99Gl3beClROnGPwrdY-1TQ&s',
+                            ),
+                            fit: BoxFit.cover,
                           ),
-                          GestureDetector(
-                            child: const PhosphorIcon(
-                                PhosphorIconsRegular.pencilSimpleLine),
-                          )
-                        ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        userModel.name,
+                        style: TextStyleData.semiBold.copyWith(fontSize: 20),
+                      ),
+                      Text(
+                        'Sale promoter',
+                        style: TextStyleData.medium,
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                const Text('Settings'),
                 const SizedBox(height: 8),
+                const Text('Profile'),
+                const SizedBox(height: 8),
+                ProfileListTile(
+                  icon: Icons.person_outline_outlined,
+                  title: "My Profile",
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.myProfile);
+                  },
+                ),
                 ProfileListTile(
                   icon: PhosphorIconsRegular.gear,
                   title: "Settings",
                   onTap: () {},
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
                 const Text('Others'),
                 const SizedBox(height: 8),
                 ProfileListTile(
@@ -131,12 +119,7 @@ class ProfileView extends StatelessWidget {
                     // ToDo ::
                   }
                 },
-                widgets: [
-                  Text(
-                    "Logout",
-                    style: TextStyleData.semiBold.copyWith(fontSize: 18),
-                  ),
-                ],
+                text: 'Logout',
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:demo_login_ui/features/get_location/data/datasource/local_data_s
 import 'package:demo_login_ui/features/get_location/data/datasource/remote_data_source/location_remote_data_source.dart';
 import 'package:demo_login_ui/features/get_location/data/repository/location_repository_impl.dart';
 import 'package:demo_login_ui/features/get_location/domain/repository/location_repository.dart';
+import 'package:demo_login_ui/features/get_location/domain/usecases/get_attendence_activity_from_cache_usecase.dart';
 import 'package:demo_login_ui/features/get_location/domain/usecases/get_attendence_activity_usecase.dart';
 import 'package:demo_login_ui/features/get_location/domain/usecases/get_current_location_usecase.dart';
 import 'package:demo_login_ui/features/get_location/domain/usecases/get_location_cache_usecase.dart';
@@ -44,7 +45,10 @@ Future<void> init() async {
 
   sl.registerFactory(() => HomeViewCubit());
   sl.registerFactory(
-    () => AttendenceListCubit(getAttendenceActivityUsecase: sl()),
+    () => AttendenceListCubit(
+      getAttendenceActivityUsecase: sl(),
+      getAttendenceActivityFromCacheUsecase: sl(),
+    ),
   );
 
   sl.registerFactory(
@@ -70,11 +74,10 @@ Future<void> init() async {
     ),
   );
   sl.registerLazySingleton<LeaveRequestRepository>(
-    () => LeaveRequestRepositoryImpl(
-      remoteDataSource: sl(),
-      localDataSource: sl(),
-    ),
-  );
+      () => LeaveRequestRepositoryImpl(
+            remoteDataSource: sl(),
+            localDataSource: sl(),
+          ));
   sl.registerLazySingleton<LocationRepository>(
     () => LocationRepositoryImpl(
       locationRemoteDataSource: sl(),
@@ -121,6 +124,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
       () => GetAttendenceActivityUsecase(locationRepository: sl()));
+
+  sl.registerLazySingleton(
+      () => GetAttendenceActivityFromCacheUsecase(locationRepository: sl()));
 
   sl.registerLazySingleton(
       () => LeaveRequestUsecase(leaveRequestRepository: sl()));

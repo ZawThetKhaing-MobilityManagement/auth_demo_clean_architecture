@@ -36,7 +36,13 @@ class LeaveRequestSuccessful extends LeaveRequestState {
 }
 
 class LeaveRequestFailed extends LeaveRequestState {
-  const LeaveRequestFailed({super.message, super.leaveList});
+  const LeaveRequestFailed({
+    super.message,
+    super.leaveList,
+    super.dropDownValue,
+    super.startDate,
+    super.endDate,
+  });
 }
 
 class LoadedLeaveList extends LeaveRequestState {

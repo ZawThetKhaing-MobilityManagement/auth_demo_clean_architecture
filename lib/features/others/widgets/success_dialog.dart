@@ -1,12 +1,17 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
-import 'package:demo_login_ui/features/login/presentation/widgets/button.dart';
+import 'package:demo_login_ui/features/others/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SuccessDialog extends StatelessWidget {
   final bool isSuccess;
-  const SuccessDialog({super.key, this.isSuccess = true});
+  final String? failedText;
+  const SuccessDialog({
+    super.key,
+    this.isSuccess = true,
+    this.failedText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,8 @@ class SuccessDialog extends StatelessWidget {
       content: Text(
         isSuccess == true
             ? "Great job! Your attendance has been successfully recorded. You're all set for today."
-            : "You're not in specified range.Click me at specified area.",
+            : failedText ??
+                "You're not in specified range.Click me at specified area.",
         textAlign: TextAlign.center,
       ),
       contentTextStyle: TextStyleData.medium.copyWith(
@@ -46,9 +52,7 @@ class SuccessDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          widgets: const [
-            Text("Done"),
-          ],
+          text: 'Done',
         )
       ],
     );

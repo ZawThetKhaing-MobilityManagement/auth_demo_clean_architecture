@@ -16,6 +16,14 @@ class AttendenceListModel extends AttendenceListEntity {
   factory AttendenceListModel.fromEntity(AttendenceListEntity entity) =>
       AttendenceListModel(data: entity.data);
   AttendenceListEntity toEntity() => AttendenceListEntity(data: data);
+
+  DataMap toJson() => {
+        'data': data
+            .map(
+              (e) => (e as AttendenceModel).toJson(),
+            )
+            .toList(),
+      };
 }
 
 class AttendenceModel extends AttendenceEntity {
@@ -31,4 +39,9 @@ class AttendenceModel extends AttendenceEntity {
 
   AttendenceModel toEntity() =>
       AttendenceModel(status: status, createdAt: createdAt);
+
+  DataMap toJson() => {
+        'status': status.toString(),
+        'created_at': createdAt.toString(),
+      };
 }

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/features/leave/data/model/leave_model.dart';
@@ -32,8 +33,15 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
 
     result.fold(
       (l) {
-        emit(LeaveRequestFailed(
-            message: l.messages, leaveList: state.leaveList));
+        emit(
+          LeaveRequestFailed(
+            message: l.messages,
+            leaveList: state.leaveList,
+            dropDownValue: state.dropDownValue,
+            startDate: state.startDate,
+            endDate: state.endDate,
+          ),
+        );
       },
       (r) {
         getLeaveList(params.token);
@@ -45,10 +53,11 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
   Future<void> getLeaveList(String? token) async {
     emit(const LeaveRequestProcessing());
     Either<Faliure, LeaveResponseEntity> result;
-    if (token == null) {
+    final isConnected = await Connectivity().checkConnectivity();
+    if (isConnected == ConnectivityResult.none) {
       result = await getLeaveListFromCacheUsecase();
     } else {
-      result = await getLeaveListUsecase(token);
+      result = await getLeaveListUsecase(token ?? '');
     }
     result.fold(
       (l) {
@@ -67,8 +76,14 @@ class LeaveRequestCubit extends Cubit<LeaveRequestState> {
     );
   }
 
-  void emitFailedState() =>
-      emit(LeaveRequestFailed(leaveList: state.leaveList));
+  void emitFailedState() => emit(
+        LeaveRequestFailed(
+          leaveList: state.leaveList,
+          dropDownValue: state.dropDownValue,
+          startDate: state.startDate,
+          endDate: state.endDate,
+        ),
+      );
 
   void datePickerChange({
     DateTime? startDate,

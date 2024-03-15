@@ -41,6 +41,6 @@ class LeaveRequestRepositoryImpl implements LeaveRequestRepository {
   @override
   ResultFuture<LeaveResponseEntity> getLeaveListFromCache() async {
     final result = await localDataSource.getCached();
-    return result.fold((l) => Left(l), (r) => Right(r));
+    return result.fold((l) => Left(l), (responseModel) => Right(responseModel));
   }
 }

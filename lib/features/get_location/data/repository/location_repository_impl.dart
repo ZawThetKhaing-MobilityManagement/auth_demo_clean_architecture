@@ -27,15 +27,15 @@ class LocationRepositoryImpl implements LocationRepository {
       },
       (location) {
         locationLocalDataSoure.setLocationCached(params);
-
         return Right(location);
       },
     );
   }
 
   @override
-  ResultFuture<LocationEntity> getLocationCache() async {
-    final result = await locationLocalDataSoure.getCached();
+  ResultFuture<LocationEntity> getLocationFromCache() async {
+    final result = await locationLocalDataSoure.getLocationCached();
+
     return result.fold(
       (l) => Left(CacheFaliure(messages: l.messages)),
       (r) => Right(r.toEntity()),
@@ -45,6 +45,18 @@ class LocationRepositoryImpl implements LocationRepository {
   @override
   ResultFuture<AttendenceListEntity> getAttendenceActivity(String token) async {
     final result = await locationRemoteDataSource.getAttendenceActivity(token);
+    return result.fold(
+      (l) => Left(ServerFaliure(messages: l.messages)),
+      (attendenceList) {
+        locationLocalDataSoure.setAttendenceCached(attendenceList);
+        return Right(attendenceList);
+      },
+    );
+  }
+
+  @override
+  ResultFuture<AttendenceListEntity> getAttendenceActivityFromCache() async {
+    final result = await locationLocalDataSoure.getAttendenceListCached();
     return result.fold(
       (l) => Left(ServerFaliure(messages: l.messages)),
       (attendenceList) => Right(attendenceList),

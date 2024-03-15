@@ -1,15 +1,16 @@
 import 'package:demo_login_ui/core/const/const.dart';
+import 'package:demo_login_ui/core/style/text_style.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   const Button({
     super.key,
     required this.onPressed,
-    required this.widgets,
+    required this.text,
     this.color,
   });
   final void Function() onPressed;
-  final List<Widget> widgets;
+  final String text;
   final Color? color;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,12 @@ class Button extends StatelessWidget {
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: widgets,
+          children: [
+            Text(
+              text,
+              style: TextStyleData.semiBold.copyWith(color: Colors.white),
+            ),
+          ],
         ),
       ),
     );

@@ -9,5 +9,5 @@ class GetLocationCacheUseCase implements UsecaseWithoutParams<LocationEntity> {
   final LocationRepository locationRepository;
 
   @override
-  ResultFuture<LocationEntity> call() => locationRepository.getLocationCache();
+  ResultFuture<LocationEntity> call() => locationRepository.getLocationFromCache();
 }
