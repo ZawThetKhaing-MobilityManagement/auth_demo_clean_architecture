@@ -1,7 +1,7 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
-import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
-import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_state.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/attendence_list_cubit/attendence_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -61,56 +61,123 @@ class YourActivity extends StatelessWidget {
                                   return Card(
                                     elevation: 0.5,
                                     color: Colors.white,
-                                    child: ListTile(
-                                      leading: Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: BoxDecoration(
-                                          color: mainColor.withOpacity(0.5),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          PhosphorIconsRegular.signIn,
-                                          size: 16,
-                                          color: mainColor,
-                                        ),
-                                      ),
-                                      title: Text(
-                                        state.model?.data[index].status ==
-                                                CHECK_IN
-                                            ? 'Clock-In'
-                                            : 'Clock-Out',
-                                        style: TextStyleData.semiBold.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        DateFormat.yMMMMd().format(
-                                          state.model?.data[index].createdAt ??
-                                              DateTime.now(),
-                                        ),
-                                        style: TextStyleData.regular.copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      trailing: Column(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            DateFormat.jm().format(
-                                              state.model?.data[index].createdAt
-                                                      .toLocal() ??
-                                                  DateTime.now(),
+                                          Container(
+                                            width: 32,
+                                            height: 32,
+                                            decoration: BoxDecoration(
+                                              color: mainColor.withOpacity(0.5),
+                                              shape: BoxShape.circle,
                                             ),
-                                            style:
-                                                TextStyleData.semiBold.copyWith(
-                                              color: Colors.black,
+                                            child: const Icon(
+                                              PhosphorIconsRegular.signIn,
+                                              size: 16,
+                                              color: mainColor,
                                             ),
                                           ),
-                                          Text(
-                                            "On-time",
-                                            style:
-                                                TextStyleData.regular.copyWith(
-                                              color: Colors.grey,
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Clock in',
+                                                      style: TextStyleData
+                                                          .semiBold
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      DateFormat.jm().format(
+                                                        state.model?.data[index]
+                                                                .checkIn ??
+                                                            DateTime.now(),
+                                                      ),
+                                                      style: TextStyleData
+                                                          .semiBold
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Clock out',
+                                                      style: TextStyleData
+                                                          .semiBold
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      state.model?.data[index]
+                                                                  .checkOut ==
+                                                              null
+                                                          ? "-----"
+                                                          : DateFormat.jm()
+                                                              .format(state
+                                                                  .model!
+                                                                  .data[index]
+                                                                  .checkOut!),
+                                                      style: TextStyleData
+                                                          .semiBold
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      state.model?.data[index]
+                                                              .dealerName ??
+                                                          '',
+                                                      style: TextStyleData
+                                                          .regular
+                                                          .copyWith(
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      DateFormat.yMMMMd()
+                                                          .format(
+                                                        state.model?.data[index]
+                                                                .createdAt ??
+                                                            DateTime.now(),
+                                                      ),
+                                                      style: TextStyleData
+                                                          .regular
+                                                          .copyWith(
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],

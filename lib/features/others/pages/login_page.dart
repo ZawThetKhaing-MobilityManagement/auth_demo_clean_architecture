@@ -32,137 +32,132 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is ProcessingState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(milliseconds: 300),
-                  content: Text("Logging in..."),
-                ),
-              );
-            }
-            if (state is FaliureState) {
-              isLoading = false;
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: const Duration(milliseconds: 300),
-                  content: Text(state.message.toString()),
-                ),
-              );
-            }
-            if (state is AuthenticatedState) {
-              isLoading = false;
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.home,
-                (route) => false,
-                arguments: state.userModel,
-              );
-            }
-            if (state is UnAuthenticatedState) {
-              isLoading = false;
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(milliseconds: 300),
-                  content: Text("Please login in..."),
-                ),
-              );
-            }
-          },
-          child: Form(
-            key: formkey,
-            child: ListView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
+    return Scaffold(
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is ProcessingState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(milliseconds: 300),
+                content: Text("Logging in..."),
               ),
-              children: [
-                const WelcomeContainer(),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  //Just verify not null for testing.
-                  validator: (value) => value?.isEmpty == true
-                      ? "Email required !"
-                      : value!.isValidEmail
-                          ? null
-                          : "Invalid Email !",
-
-                  decoration: const InputDecoration(
-                    hintText: 'Valid email',
-                    suffixIcon: Icon(
-                      Icons.mail_outline,
-                      size: 24,
-                    ),
-                  ),
-
-                  onEditingComplete: _passwordF.requestFocus,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  obscureText: true,
-                  focusNode: _passwordF,
-                  controller: _passwordController,
-                  validator: (value) => value?.isEmpty == true
-                      ? "Password required !"
-                      : value!.isValidPassword
-                          ? null
-                          : "Atleast 8 words required !",
-                  decoration: const InputDecoration(
-                    hintText: 'Password',
-                    suffixIcon: Icon(
-                      Icons.lock_outline,
-                      size: 24,
-                    ),
-                  ),
-                  onEditingComplete: () {
-                    if (formkey.currentState?.validate() == true &&
-                        isLoading == false) {
-                      isLoading = true;
-                      _passwordF.unfocus();
-                      context.read<AuthBloc>().add(
-                            LoginEvent(
-                              loginInParams: LoginInParams(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            ),
-                          );
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Button(
-                  text: 'Next',
-                  onPressed: () {
-                    if (formkey.currentState?.validate() == true &&
-                        isLoading == false) {
-                      isLoading = true;
-                      _passwordF.unfocus();
-
-                      context.read<AuthBloc>().add(
-                            LoginEvent(
-                              loginInParams: LoginInParams(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            ),
-                          );
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
+            );
+          }
+          if (state is FaliureState) {
+            isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: 300),
+                content: Text(state.message.toString()),
+              ),
+            );
+          }
+          if (state is AuthenticatedState) {
+            isLoading = false;
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.home,
+              (route) => false,
+              arguments: state.userModel,
+            );
+          }
+          if (state is UnAuthenticatedState) {
+            isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(milliseconds: 300),
+                content: Text("Please login in..."),
+              ),
+            );
+          }
+        },
+        child: Form(
+          key: formkey,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30,
             ),
+            children: [
+              const WelcomeContainer(),
+              const SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                controller: _emailController,
+                //Just verify not null for testing.
+                validator: (value) =>
+                    value?.isEmpty == true ? "Phone number required !" : null,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  hintText: 'Phone number',
+                  suffixIcon: Icon(
+                    Icons.phone,
+                    size: 24,
+                  ),
+                ),
+
+                onEditingComplete: _passwordF.requestFocus,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                obscureText: true,
+                focusNode: _passwordF,
+                controller: _passwordController,
+                validator: (value) => value?.isEmpty == true
+                    ? "Password required !"
+                    : value!.isValidPassword
+                        ? null
+                        : "Atleast 8 words required !",
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                  suffixIcon: Icon(
+                    Icons.lock_outline,
+                    size: 24,
+                  ),
+                ),
+                onEditingComplete: () {
+                  if (formkey.currentState?.validate() == true &&
+                      isLoading == false) {
+                    isLoading = true;
+                    _passwordF.unfocus();
+                    context.read<AuthBloc>().add(
+                          LoginEvent(
+                            loginInParams: LoginInParams(
+                              phone: _emailController.text,
+                              password: _passwordController.text,
+                            ),
+                          ),
+                        );
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Button(
+                text: 'Next',
+                onPressed: () {
+                  if (formkey.currentState?.validate() == true &&
+                      isLoading == false) {
+                    isLoading = true;
+                    _passwordF.unfocus();
+
+                    context.read<AuthBloc>().add(
+                          LoginEvent(
+                            loginInParams: LoginInParams(
+                              phone: _emailController.text,
+                              password: _passwordController.text,
+                            ),
+                          ),
+                        );
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+            ],
           ),
         ),
       ),

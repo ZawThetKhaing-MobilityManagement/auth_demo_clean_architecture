@@ -1,37 +1,34 @@
 import 'dart:async';
 
-import 'package:dartz/dartz.dart';
-import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
-import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/change_password_usecase.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/logout_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/auth_user_usecase.dart';
-import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({
-    required this.authUserUsecase,
-    required this.signUpUsecase,
-    required this.loginUsecase,
-    required this.logoutUsecase,
-  }) : super(AuthblocInitial()) {
-    on<SignUpEvent>(signUporLogin);
+  AuthBloc(
+      {required this.authUserUsecase,
+      required this.loginUsecase,
+      required this.logoutUsecase,
+      required this.changePasswordUsecase})
+      : super(AuthblocInitial()) {
+    on<LoginEvent>(login);
 
-    on<LoginEvent>(signUporLogin);
-
-    on<UnAuthenticatedEvent>((event, emit) => emit(UnAuthenticatedState()));
+    on<ChangePasswordEvent>(changePassword);
 
     on<AuthenticatedEvent>(
       (event, emit) => emit(
         AuthenticatedState(userModel: event.userModel!),
       ),
     );
+
+    on<UnAuthenticatedEvent>((event, emit) => emit(UnAuthenticatedState()));
 
     on<LogoutEvent>((event, emit) async {
       await logoutUsecase();
@@ -40,32 +37,53 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final AuthUserUsecase authUserUsecase;
-  final SignUpUsecase signUpUsecase;
   final LoginUsecase loginUsecase;
   final LogoutUsecase logoutUsecase;
+  final ChangePasswordUsecase changePasswordUsecase;
 
   StreamSubscription? streamSubscription;
 
-  Future<void> signUporLogin(AuthEvent event, Emitter emit) async {
-    emit(ProcessingState());
-    Either<Faliure, UserEntity>? result;
-    try {
-      if (event is SignUpEvent) {
-        result = await signUpUsecase(event.signUpParams!);
-      } else if (event is LoginEvent) {
-        result = await loginUsecase(event.loginInParams!);
-      }
+  final bool _isObSecureText = false;
 
-      if (result != null) {
-        result.fold(
-          (l) => emit(FaliureState(message: l.messages)),
-          (r) => emit(
-            AuthenticatedState(userModel: UserModel.fromEntity(r)),
+  bool get isObSecureText => _isObSecureText;
+
+  Future<void> changePassword(AuthEvent event, Emitter<AuthState> emit) async {
+    emit(ProcessingState(
+      userModel: state.userModel,
+    ));
+
+    try {
+      final result = await changePasswordUsecase(
+          event.changePasswordParams!.copyWith(token: state.userModel?.token));
+
+      result.fold(
+        (l) =>
+            emit(FaliureState(message: l.messages, userModel: state.userModel)),
+        (r) => emit(
+          PasswordChangedState(
+            message: "Click done to stay logging in.",
+            userModel: state.userModel,
           ),
-        );
-      } else {
-        emit(const FaliureState(message: 'Something Went Wrong'));
-      }
+        ),
+      );
+    } catch (e) {
+      emit(FaliureState(
+          message: 'Something Went Wrong', userModel: state.userModel));
+    }
+  }
+
+  Future<void> login(AuthEvent event, Emitter emit) async {
+    emit(const ProcessingState());
+
+    try {
+      final result = await loginUsecase(event.loginInParams!);
+
+      result.fold(
+        (l) => emit(FaliureState(message: l.messages)),
+        (r) => emit(
+          AuthenticatedState(userModel: UserModel.fromEntity(r)),
+        ),
+      );
     } catch (e) {
       emit(const FaliureState(message: 'Something Went Wrong'));
     }

@@ -36,15 +36,15 @@ class LeaveView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       LeaveRemainingBox(
                         status: 'Leave Balance',
                         color: Colors.yellow,
-                        remainDays: 10,
+                        remainDays: userModel.leaveBalance,
                       ),
-                      LeaveRemainingBox(
+                      const LeaveRemainingBox(
                         status: 'Leave Pendings',
                         color: Colors.orange,
                         remainDays: 2,

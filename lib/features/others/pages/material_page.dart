@@ -1,5 +1,8 @@
 import 'package:demo_login_ui/core/routes/route.dart';
 import 'package:demo_login_ui/core/theme/theme.dart';
+import 'package:demo_login_ui/features/attendence/presentation/bloc/location_bloc.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/region_list/region_list_cubit.dart';
 import 'package:demo_login_ui/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:demo_login_ui/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ class MaterialScreen extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        // showPerformanceOverlay: true,
         onGenerateRoute: Routes.routes,
         initialRoute: Routes.wrapper,
         theme: themeData,

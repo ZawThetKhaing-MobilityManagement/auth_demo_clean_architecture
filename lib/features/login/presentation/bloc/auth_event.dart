@@ -2,24 +2,24 @@ part of 'auth_bloc.dart';
 
 abstract class AuthEvent extends Equatable {
   const AuthEvent({
-    this.signUpParams,
     this.loginInParams,
+    this.changePasswordParams,
     this.userModel,
   });
-  final SignInParams? signUpParams;
   final LoginInParams? loginInParams;
+  final ChangePasswordParams? changePasswordParams;
   final UserModel? userModel;
 
   @override
   List<Object> get props => [];
 }
 
-class SignUpEvent extends AuthEvent {
-  const SignUpEvent({required super.signUpParams});
-}
-
 class LoginEvent extends AuthEvent {
   const LoginEvent({required super.loginInParams});
+}
+
+class ChangePasswordEvent extends AuthEvent {
+  const ChangePasswordEvent({required super.changePasswordParams});
 }
 
 class ProcessingEvent extends AuthEvent {}

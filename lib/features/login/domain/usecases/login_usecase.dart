@@ -13,8 +13,8 @@ class LoginUsecase implements UsecaseWithParams<UserEntity, LoginInParams> {
 }
 
 class LoginInParams {
-  LoginInParams({required this.email, required this.password});
+  LoginInParams({required this.phone, required this.password});
 
-  final String email;
+  final String phone;
   final String password;
 }

@@ -15,10 +15,19 @@ abstract class AuthState extends Equatable {
 
 class AuthblocInitial extends AuthState {}
 
-class ProcessingState extends AuthState {}
+class ProcessingState extends AuthState {
+  const ProcessingState({super.userModel});
+}
+
+class PasswordChangedState extends AuthState {
+  const PasswordChangedState({super.message, super.userModel});
+}
 
 class FaliureState extends AuthState {
-  const FaliureState({super.message});
+  const FaliureState({
+    super.message,
+    super.userModel,
+  });
 }
 
 class AuthenticatedState extends AuthState {

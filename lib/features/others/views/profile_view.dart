@@ -48,11 +48,13 @@ class ProfileView extends StatelessWidget {
                       Container(
                         width: 100,
                         height: 100,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsiIcLC98l0IVWtUGXYytr99Gl3beClROnGPwrdY-1TQ&s',
+                              userModel.image == null
+                                  ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsiIcLC98l0IVWtUGXYytr99Gl3beClROnGPwrdY-1TQ&s'
+                                  : userModel.image!,
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -66,7 +68,7 @@ class ProfileView extends StatelessWidget {
                         style: TextStyleData.semiBold.copyWith(fontSize: 20),
                       ),
                       Text(
-                        'Sale promoter',
+                        userModel.employeeRole,
                         style: TextStyleData.medium,
                       ),
                     ],
@@ -79,20 +81,25 @@ class ProfileView extends StatelessWidget {
                   icon: Icons.person_outline_outlined,
                   title: "My Profile",
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.myProfile);
+                    Navigator.of(context).pushNamed(
+                      Routes.myProfile,
+                      arguments: userModel,
+                    );
                   },
                 ),
                 ProfileListTile(
                   icon: PhosphorIconsRegular.gear,
                   title: "Settings",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.setting);
+                  },
                 ),
                 const SizedBox(height: 8),
                 const Text('Others'),
                 const SizedBox(height: 8),
                 ProfileListTile(
                   icon: PhosphorIconsRegular.shieldStar,
-                  title: "Term and Conditions",
+                  title: "Terms and Conditions",
                   onTap: () {},
                 ),
                 ProfileListTile(
@@ -116,7 +123,11 @@ class ProfileView extends StatelessWidget {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         Routes.login, (route) => false);
                   } catch (e) {
-                    // ToDo ::
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Logout Failed!"),
+                      ),
+                    );
                   }
                 },
                 text: 'Logout',

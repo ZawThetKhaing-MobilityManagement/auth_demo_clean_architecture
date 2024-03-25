@@ -1,5 +1,5 @@
 import 'package:demo_login_ui/core/const/const.dart';
-import 'package:demo_login_ui/features/get_location/presentation/cubit/home_view_cubit_cubit.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/others/views/home_view.dart';
 import 'package:demo_login_ui/features/others/views/leave_view.dart';

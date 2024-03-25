@@ -1,10 +1,14 @@
-
+import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/others/widgets/profile_data_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MyProfilePage extends StatelessWidget {
-  const MyProfilePage({super.key});
+  final UserModel userModel;
+  const MyProfilePage({
+    super.key,
+    required this.userModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,29 +27,35 @@ class MyProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ProfileDataListTile(
+            ProfileDataListTile(
               title: 'Employee Name',
-              content: 'Zaw',
+              content: userModel.name,
             ),
-            const ProfileDataListTile(
+            ProfileDataListTile(
               title: 'Employee ID',
-              content: '123456',
+              content: userModel.userCode,
             ),
-            const ProfileDataListTile(
+            ProfileDataListTile(
               title: 'Employee Role',
-              content: 'Sale Promoter',
+              content: userModel.employeeRole,
             ),
             ProfileDataListTile(
               title: 'Join Date',
-              content: DateFormat.yMd().format(DateTime.now()),
+              content:
+                  DateFormat.yMd().format(DateTime.parse(userModel.joinDate)),
             ),
-            const ProfileDataListTile(
+            ProfileDataListTile(
               title: 'Phone Number',
-              content: '0911111111',
+              content: userModel.phone,
             ),
-            const ProfileDataListTile(
+            ProfileDataListTile(
+              title: 'Office',
+              content: userModel.shop,
+            ),
+            ProfileDataListTile(
               title: 'Office Time',
-              content: '10:00 am to 07:00 pm',
+              content:
+                  '${userModel.officeStartTime.substring(0, 5)} am to ${userModel.officeEndTime.substring(0, 5)} pm',
             ),
           ],
         ),

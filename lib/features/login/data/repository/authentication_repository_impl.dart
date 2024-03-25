@@ -5,8 +5,8 @@ import 'package:demo_login_ui/features/login/data/datasource/localDataSource/use
 import 'package:demo_login_ui/features/login/data/datasource/remoteDataSource/user_remote_data_source.dart';
 import 'package:demo_login_ui/features/login/domain/entities/user_entity.dart';
 import 'package:demo_login_ui/features/login/domain/repositories/authentication_repository.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/change_password_usecase.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
-import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final UserRemoteDataSource userRemoteDataSource;
@@ -18,22 +18,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   });
 
   @override
-  ResultFuture<UserEntity> signUp({required SignInParams params}) async {
-    final result =
-        await userRemoteDataSource.signUpwithEmailandPassword(params);
-    return result.fold(
-      (faliure) => Left(ServerFaliure(messages: faliure.messages)),
-      (userModel) {
-        userLocalDataSoure.setCached(userModel);
-
-        return Right(userModel);
-      },
-    );
-  }
-
-  @override
   ResultFuture<UserEntity> login({required LoginInParams params}) async {
-    final result = await userRemoteDataSource.loginwithEmailandPassword(params);
+    final result = await userRemoteDataSource.login(params);
 
     return result.fold(
       (faliure) {
@@ -65,4 +51,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     });
     return userLocalDataSoure.removeCached();
   }
+
+  @override
+  ResultVoid changePassword(ChangePasswordParams params) =>
+      userRemoteDataSource.changePassword(params);
 }

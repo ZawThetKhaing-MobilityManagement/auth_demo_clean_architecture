@@ -1,11 +1,13 @@
 import 'package:demo_login_ui/core/const/const.dart';
 import 'package:demo_login_ui/core/style/text_style.dart';
-import 'package:demo_login_ui/features/get_location/data/model/location_model.dart';
-import 'package:demo_login_ui/features/get_location/presentation/bloc/location_bloc.dart';
-import 'package:demo_login_ui/features/get_location/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
+import 'package:demo_login_ui/features/attendence/data/model/location_model.dart';
+import 'package:demo_login_ui/features/attendence/presentation/bloc/location_bloc.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/attendence_list_cubit/attendence_list_cubit.dart';
+import 'package:demo_login_ui/features/attendence/presentation/cubit/region_list/region_list_cubit.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
 import 'package:demo_login_ui/features/login/presentation/widgets/mini_clock_in_out.dart';
-import 'package:demo_login_ui/features/others/widgets/success_dialog.dart';
+import 'package:demo_login_ui/features/others/widgets/alert.dart';
+import 'package:demo_login_ui/features/others/widgets/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -20,12 +22,19 @@ class ClockIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final regionListCubit = context.read<RegionListCubit>();
+
     return BlocConsumer<LocationBloc, LocationState>(
       listener: (context, state) {
         if (state is LocationGetSuccessfulState) {
           showDialog(
             context: context,
-            builder: (_) => const SuccessDialog(),
+            builder: (_) => const CustomDialog(
+              title: "Attendence Successful!",
+              content:
+                  "Great job! Your attendance has been successfully recorded. You're all set for today.",
+              isSuccess: true,
+            ),
           );
           context
               .read<AttendenceListCubit>()
@@ -33,9 +42,11 @@ class ClockIn extends StatelessWidget {
         } else if (state is GetLocationFailedState) {
           showDialog(
             context: context,
-            builder: (_) => SuccessDialog(
+            builder: (_) => const CustomDialog(
               isSuccess: false,
-              failedText: state.message,
+              title: "Attendence fail!",
+              content:
+                  "You're not in specified range.Click me at specified area.",
             ),
           );
         }
@@ -43,6 +54,7 @@ class ClockIn extends StatelessWidget {
       builder: (context, state) {
         final LocationModel? model = state.model;
         DateTime? clockIn = model?.clockIn;
+
         return Column(
           children: [
             Container(
@@ -59,8 +71,49 @@ class ClockIn extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (state is LoactionGetProcessingState) return;
+
+                ///show bottom sheet when role is leader ;
+
+                if (userModel.employeeRole == 'Leader') {
+                  showBottomSheet(
+                    backgroundColor: Colors.white,
+                    context: context,
+                    builder: (_) {
+                      return Alert(
+                        onDealerChanged: regionListCubit.dealerDropDownChange,
+                        onRegionChanged: regionListCubit.regionDropDownChange,
+                        onPressed: () {
+                          if (model?.status == CHECK_OUT ||
+                              model?.status == null) {
+                            context.read<LocationBloc>().add(
+                                  GetLocationEvent(
+                                    token: userModel.token ?? '',
+                                    status: Status.clockIn,
+                                    dealerId:
+                                        regionListCubit.state.selectedDealerId,
+                                  ),
+                                );
+                            return;
+                          } else {
+                            context.read<LocationBloc>().add(
+                                  GetLocationEvent(
+                                    token: userModel.token ?? '',
+                                    status: Status.clockOut,
+                                    clockIn: model?.clockIn,
+                                    dealerId:
+                                        regionListCubit.state.selectedDealerId,
+                                  ),
+                                );
+                            return;
+                          }
+                        },
+                      );
+                    },
+                  );
+                  return;
+                }
 
                 if (model?.status == CHECK_OUT || model?.status == null) {
                   context.read<LocationBloc>().add(
@@ -104,8 +157,8 @@ class ClockIn extends StatelessWidget {
                           ),
                           Text(
                             model?.status == CHECK_OUT || model?.status == null
-                                ? "Clock-in"
-                                : "Clock-out",
+                                ? "Clock in"
+                                : "Clock out",
                             style: TextStyleData.medium.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -119,18 +172,18 @@ class ClockIn extends StatelessWidget {
               height: 32,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 24.0, right: 24,bottom: 8),
+              padding: const EdgeInsets.only(left: 24.0, right: 24, bottom: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   MiniClockInOut(
                     icon: PhosphorIconsRegular.clock,
-                    status: "Clock-In",
+                    status: "Clock in",
                     time: model?.clockIn ?? clockIn,
                   ),
                   MiniClockInOut(
                     icon: PhosphorIconsRegular.clockAfternoon,
-                    status: "Clock-Out",
+                    status: "Clock out",
                     time: model?.clockOut,
                   ),
                   Column(
@@ -145,7 +198,7 @@ class ClockIn extends StatelessWidget {
                         "${model?.hour ?? '00'}:${model?.minute ?? '00'}",
                         style: TextStyleData.semiBold,
                       ),
-                      Text("Working-hours", style: TextStyleData.regular),
+                      Text("Working hours", style: TextStyleData.regular),
                     ],
                   ),
                 ],

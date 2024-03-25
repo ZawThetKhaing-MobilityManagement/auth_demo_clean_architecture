@@ -6,14 +6,14 @@ import 'package:demo_login_ui/core/error/exception.dart';
 import 'package:demo_login_ui/core/error/failure.dart';
 import 'package:demo_login_ui/core/utils/typedef.dart';
 import 'package:demo_login_ui/features/login/data/model/user_model.dart';
+import 'package:demo_login_ui/features/login/domain/usecases/change_password_usecase.dart';
 import 'package:demo_login_ui/features/login/domain/usecases/login_usecase.dart';
-import 'package:demo_login_ui/features/login/domain/usecases/signup_usecase.dart';
 import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDataSource {
-  ResultFuture<UserModel> signUpwithEmailandPassword(SignInParams params);
-  ResultFuture<UserModel> loginwithEmailandPassword(LoginInParams params);
+  ResultFuture<UserModel> login(LoginInParams params);
   ResultVoid logout(String token);
+  ResultVoid changePassword(ChangePasswordParams params);
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -22,13 +22,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   UserRemoteDataSourceImpl({required this.client});
 
   @override
-  ResultFuture<UserModel> signUpwithEmailandPassword(
-          SignInParams params) async =>
-      apiService(Urls.register, signInParams: params);
-
-  @override
-  ResultFuture<UserModel> loginwithEmailandPassword(
-          LoginInParams params) async =>
+  ResultFuture<UserModel> login(LoginInParams params) async =>
       apiService(Urls.login, loginInParams: params);
 
   @override
@@ -55,25 +49,58 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
+  @override
+  ResultVoid changePassword(ChangePasswordParams params) async {
+    final Uri uri = Uri.parse(Urls.changePassword);
+    Map toJson = {
+      '_method': 'PUT',
+      'current_password': params.currentPassword,
+      'new_password': params.newPassword,
+    };
+    try {
+      final response = await client.post(
+        uri,
+        body: toJson,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${params.token}'
+        },
+      );
+
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return const Right(null);
+      } else {
+        final errorMessage =
+            (jsonDecode(response.body) as Map<String, dynamic>)['data'];
+
+        return Left(
+          ServerFaliure(
+            messages: errorMessage[0],
+          ),
+        );
+      }
+    } on ServerException catch (e) {
+      throw Left(
+        ServerException(
+          statusCode: e.statusCode,
+          message: e.message,
+        ),
+      );
+    }
+  }
+
   ResultFuture<UserModel> apiService(
     String url, {
-    SignInParams? signInParams,
-    LoginInParams? loginInParams,
+    required LoginInParams loginInParams,
   }) async {
     Uri uri = Uri.parse(url);
-    Map toJson;
-    if (signInParams != null) {
-      toJson = {
-        'name': signInParams.name,
-        'email': signInParams.email,
-        'password': signInParams.password,
-      };
-    } else {
-      toJson = {
-        'email': loginInParams!.email,
-        'password': loginInParams.password,
-      };
-    }
+    Map toJson = {
+      'phone': loginInParams.phone,
+      'password': loginInParams.password,
+    };
 
     try {
       final response = await client.post(

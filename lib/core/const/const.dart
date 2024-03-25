@@ -16,8 +16,12 @@ class Urls {
   static const String login = '$baseUrl/login';
   static const String register = '$baseUrl/register';
   static const String logout = '$baseUrl/logout';
-  static const String attendence = '$baseUrl/attendence';
+  static const String attendenceCheckIn = '$baseUrl/attendence';
+  static const String regionList = '$baseUrl/region-list';
+  static const String dealerList = '$baseUrl/dealer-list';
+  static const String changePassword = '$baseUrl/user/passwordchange';
   static const String attendenceList = '$baseUrl/attendence-list';
   static const String leaveRequest = '$baseUrl/leave-request';
   static const String leaveRequestStatus = '$baseUrl/leave-request-status';
+  static String attendenceCheckOut(int id) => '$baseUrl/attendence/$id';
 }
